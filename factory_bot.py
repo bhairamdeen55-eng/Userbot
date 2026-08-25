@@ -66,6 +66,27 @@ FACTORY_OWNER_ID = int(os.environ.get("FACTORY_OWNER_ID", "0"))
 MONGODB_URI = os.environ.get("MONGODB_URI", "")
 MONGODB_DB_NAME = os.environ.get("MONGODB_DB_NAME", "funbot_factory")
 
+# ── Public/restricted Mongo URI (used ONLY in the Colab login snippet we
+# hand to end-users, so they never see your main admin-level MONGODB_URI).
+# Create a SEPARATE MongoDB Atlas database user with readWrite access
+# scoped to MONGODB_DB_NAME only (not admin/dbAdmin) and put its
+# connection string here. Falls back to MONGODB_URI if not set — but
+# that means every user who runs the Colab step sees your full-access
+# connection string, so only leave this unset if you fully trust every
+# person who will ever use this bot.
+PUBLIC_MONGODB_URI = os.environ.get("PUBLIC_MONGODB_URI", MONGODB_URI)
+
+# Raw GitHub URL to funbot_core.py — the Colab snippet downloads it from
+# here so end-users don't need git installed on their own device.
+CORE_SCRIPT_RAW_URL = os.environ.get(
+    "CORE_SCRIPT_RAW_URL",
+    "https://raw.githubusercontent.com/bhairamdeen55-eng/Userbot/main/funbot_core.py",
+)
+
+# How often (seconds) the factory re-checks MongoDB for freshly-logged-in
+# clones (session_string appeared) without needing a manual redeploy.
+MONGO_SYNC_INTERVAL_SECONDS = int(os.environ.get("MONGO_SYNC_INTERVAL_SECONDS", "60"))
+
 # Resource Usage Guard thresholds (feature 8) — a clone restarts itself if
 # it crosses either of these, sustained, to protect the whole host.
 MAX_CPU_PERCENT = float(os.environ.get("MAX_CPU_PERCENT", "80"))
@@ -216,6 +237,39 @@ async def mongo_hydrate_all():
         log.error(f"Mongo hydrate failed: {e}")
 
 
+async def mongo_sync_new_sessions():
+    """Runs every MONGO_SYNC_INTERVAL_SECONDS in the background (not just at
+    startup). If someone just finished the Colab login step, their
+    session_string appears in Mongo — this pulls it down to the local
+    session file so process_watcher can auto-start their clone within one
+    watch cycle, with no manual redeploy needed."""
+    if mongo_clones is None:
+        return
+    while True:
+        await asyncio.sleep(MONGO_SYNC_INTERVAL_SECONDS)
+        try:
+            async for doc in mongo_clones.find({"session_string": {"$exists": True, "$ne": ""}}):
+                owner_id = doc.get("owner_id")
+                if owner_id is None:
+                    continue
+                sess_file = session_path(owner_id)
+                mongo_sess = doc.get("session_string", "")
+                local_sess = sess_file.read_text(encoding="utf-8").strip() if sess_file.is_file() else ""
+                if mongo_sess and mongo_sess != local_sess:
+                    # config/settings may also exist only in Mongo if this
+                    # device never had them locally (fresh container)
+                    cfg = doc.get("config")
+                    settings = doc.get("settings")
+                    if cfg and not config_path(owner_id).is_file():
+                        save_json(config_path(owner_id), cfg)
+                    if settings and not settings_path(owner_id).is_file():
+                        save_json(settings_path(owner_id), settings)
+                    sess_file.write_text(mongo_sess, encoding="utf-8")
+                    log.info(f"🔄 Synced new session for owner {owner_id} from MongoDB (no redeploy needed).")
+        except Exception as e:
+            log.error(f"mongo_sync_new_sessions error: {e}")
+
+
 # ────────────────────────────────────────────────
 #   /start AND MAIN MENU
 # ────────────────────────────────────────────────
@@ -299,17 +353,40 @@ async def run_clone_wizard(owner_id: int, chat_id: int):
             save_json(settings_path(owner_id), default_settings())
             await mongo_upsert_clone(owner_id, cfg=cfg, settings=default_settings())
 
-            login_cmd = f"cd {clone_dir(owner_id)}\npython {CORE_SCRIPT} --config config.json --login-only"
+            colab_snippet = (
+                "!pip install -q telethon pymongo\n\n"
+                "import json, urllib.request\n\n"
+                "config = {\n"
+                f'    "api_id": {api_id},\n'
+                f'    "api_hash": "{api_hash}",\n'
+                f'    "owner_id": {int(owner_id_text)},\n'
+                f'    "factory_owner_telegram_id": {owner_id},\n'
+                '    "session_file": "funbot_session.txt",\n'
+                f'    "mongodb_uri": "{PUBLIC_MONGODB_URI}",\n'
+                f'    "mongodb_db_name": "{MONGODB_DB_NAME}",\n'
+                "}\n"
+                "with open(\"config.json\", \"w\") as f:\n"
+                "    json.dump(config, f)\n\n"
+                f'urllib.request.urlretrieve("{CORE_SCRIPT_RAW_URL}", "funbot_core.py")\n\n'
+                "!python funbot_core.py --config config.json --login-only"
+            )
             await conv.send_message(
                 "✅ **Config ban gaya!**\n\n"
                 "⚠️ Security ki wajah se login is bot ke through kabhi nahi hota — "
-                "phone number ya OTP main kabhi nahi maangta. Login khud apne "
-                "terminal me karo, sirf ek baar:\n\n"
-                f"```\n{login_cmd}\n```\n\n"
-                "Ye tumhare terminal me directly phone number aur OTP maangega "
-                "(Telethon ka apna standard prompt hai) — wahi type karo. Login "
-                "ho jaane ke baad **📋 My Clone Status** dabao, main automatically "
-                "tumhara clone start kar dunga aur usko monitor karta rahunga.",
+                "phone number ya OTP main kabhi nahi maangta. Login sirf ek baar, "
+                "khud tumhare control me hoga — Google Colab ke through (free, "
+                "kuch install nahi karna):\n\n"
+                "**Kaise karna hai:**\n"
+                "1️⃣ [colab.research.google.com](https://colab.research.google.com) kholo, "
+                "**New Notebook** banao\n"
+                "2️⃣ Neeche diya poora code ek cell me paste karo\n"
+                "3️⃣ ▶️ Run dabao\n"
+                "4️⃣ Cell ke neeche phone number aur OTP maangega — wahi type karke Enter dabao "
+                "(ye seedha Telegram ko jata hai, mujhe kabhi nahi dikhta)\n\n"
+                f"```\n{colab_snippet}\n```\n\n"
+                "Login ho jaane ke ~1 minute baad (main Mongo automatically check karta rehta "
+                "hoon) tumhara clone khud start ho jayega. **📋 My Clone Status** dabake confirm "
+                "kar sakte ho.",
                 buttons=MAIN_MENU,
             )
     except asyncio.TimeoutError:
@@ -903,6 +980,7 @@ async def main():
     asyncio.create_task(process_watcher())
     asyncio.create_task(backup_scheduler())
     asyncio.create_task(resource_guard())
+    asyncio.create_task(mongo_sync_new_sessions())
     await factory.run_until_disconnected()
 
 
