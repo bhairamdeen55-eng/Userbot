@@ -211,7 +211,9 @@ MAIN_MENU = [
     [Button.inline("📋 My Clone Status", b"my_status")],
     [Button.inline("⚙️ My Clone Settings", b"my_settings")],
     [Button.inline("🗑️ Delete My Clone", b"delete_clone")],
+    [Button.url("📖 How to work", "https://teamvb-userbot.netlify.app/")],
 ]
+
 
 BACK_BUTTON = [[Button.inline("⬅️ Back", b"back_main")]]
 
