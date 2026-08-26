@@ -177,7 +177,7 @@ CHILL_REPLIES = [
     "🪁 Aasmaan me udta hua light mood! Completely free-flowing aur positive mindset! 🌈",
     "🛋️ Comfy vibes only allowed here! Pillow, snacks aur chill conversations ka combo! 🍿",
     "🌙 Chill raho tension free bhai! Raat ho ya din, apan hamesha smooth mode me hain! ☕",
-    "😊 Heartwarming response! Padhke sach me accha aur completely satisfying laga! ✨,
+    "😊 Heartwarming response! Padhke sach me accha aur completely satisfying laga! ✨",
     "🌊 Deep ocean calmness level! Chill frequency match ho gayi hai poori tarah se! 🏝️",
     "🧘 Perfect state of equilibrium! Zero rush, zero noise, pure inner peace energy! ✨",
     "🍃 Gentle breeze wala peaceful atmosphere! Scene bilkul sorted aur effortless lag raha hai! 🕊️",
