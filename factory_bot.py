@@ -1,3 +1,27 @@
+# ────────────────────────────────────────────────
+#   FUN BOT — CLONE FACTORY (management Bot API bot)
+#
+#   WHAT THIS DOES:
+#   - Runs as a normal Telegram Bot (via @BotFather token), NOT a userbot.
+#   - Lets anyone generate their own fun_bot clone by giving API_ID,
+#     API_HASH, and OWNER_ID through chat.
+#   - Deliberately does NOT ask for phone number or OTP anywhere in this
+#     bot. Login for each clone happens in the owner's own terminal by
+#     running funbot_core.py --login-only, where Telethon's own prompt
+#     asks for phone/code directly — this bot never sees or stores it.
+#   - Once a clone has logged in (its session file exists), this factory
+#     auto-starts and monitors it as a background subprocess.
+#   - Provides a settings menu so each owner can tweak their own clone's
+#     cooldown / reactions without touching a terminal again.
+#
+#   SETUP:
+#   1. Get a bot token from @BotFather → set BOT_TOKEN below.
+#   2. Get your own API_ID / API_HASH from my.telegram.org → set below
+#      (this is for the FACTORY bot's own connection, separate from any
+#      clone's credentials).
+#   3. Make sure funbot_core.py sits in the same folder as this script.
+#   4. python factory_bot.py
+# ────────────────────────────────────────────────
 
 import asyncio
 import json
@@ -21,22 +45,39 @@ try:
 except ImportError:
     AsyncIOMotorClient = None
 
-
+# ────────────────────────────────────────────────
+#   CONFIG — reads from environment variables (set these in Koyeb's
+#   dashboard under your app's Environment Variables, NOT in this file).
+#   Local testing: you can still hardcode fallback values below, but
+#   never commit real secrets to a public/shared repo.
+# ────────────────────────────────────────────────
 FACTORY_API_ID = int(os.environ.get("FACTORY_API_ID", "12345678"))
 FACTORY_API_HASH = os.environ.get("FACTORY_API_HASH", "your_api_hash_here")
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "123456789:your-botfather-token-here")
 
-
+# Numeric Telegram user ID(s) of YOU, the person(s) running this factory
+# bot. Only these IDs can open /admin and see the owner panel below.
+# Supports multiple accounts — separate with a comma, e.g. "111,222".
 FACTORY_OWNER_ID = int(os.environ.get("FACTORY_OWNER_ID", "0").split(",")[0].strip() or "0")
 FACTORY_OWNER_IDS = {
     int(x.strip()) for x in os.environ.get("FACTORY_OWNER_ID", "0").split(",") if x.strip().isdigit()
 } - {0}
 
-
+# MongoDB — set MONGODB_URI to your Atlas connection string as an env var.
+# If left empty, the bot falls back to local-files-only mode (fine for a
+# real VPS with persistent disk; NOT safe on Koyeb/Render where the
+# filesystem resets on every redeploy).
 MONGODB_URI = os.environ.get("MONGODB_URI", "")
 MONGODB_DB_NAME = os.environ.get("MONGODB_DB_NAME", "funbot_factory")
 
-
+# ── Public/restricted Mongo URI (used ONLY in the Colab login snippet we
+# hand to end-users, so they never see your main admin-level MONGODB_URI).
+# Create a SEPARATE MongoDB Atlas database user with readWrite access
+# scoped to MONGODB_DB_NAME only (not admin/dbAdmin) and put its
+# connection string here. Falls back to MONGODB_URI if not set — but
+# that means every user who runs the Colab step sees your full-access
+# connection string, so only leave this unset if you fully trust every
+# person who will ever use this bot.
 PUBLIC_MONGODB_URI = os.environ.get("PUBLIC_MONGODB_URI", MONGODB_URI)
 
 # Raw GitHub URL to funbot_core.py — the Colab snippet downloads it from
@@ -152,7 +193,14 @@ def all_owner_dirs():
             yield d.name, d
 
 
-
+# ────────────────────────────────────────────────
+#   MONGODB HELPERS (feature 9 — Database Integration)
+#   config.json / settings.json / funbot_session.txt stay as the LOCAL
+#   working copies (funbot_core.py subprocess reads them directly), but
+#   every change is mirrored to Mongo, and mongo_hydrate_all() rebuilds
+#   those local files from Mongo on startup — so a redeploy on a
+#   no-persistent-disk host (Koyeb, Render) doesn't lose anything.
+# ────────────────────────────────────────────────
 async def mongo_upsert_clone(owner_id: int, cfg: Optional[dict] = None, settings: Optional[dict] = None):
     if mongo_clones is None:
         return
@@ -788,6 +836,13 @@ async def adm_backup(event):
     )
 
 
+# ────────────────────────────────────────────────
+#   BACKGROUND WATCHER — auto-starts/monitors every logged-in clone
+#   Now also detects crashes vs a clean exit, DMs the clone owner (and
+#   you) with a summary, and specifically flags an invalid/expired
+#   session so the owner knows to re-login instead of the watcher
+#   silently retrying forever (features 1 & 2).
+# ────────────────────────────────────────────────
 def start_clone_process(owner_key: str, owner_dir: Path, cfg_file: Path):
     log_path = owner_dir / "clone_output.log"
     logf = open(log_path, "a", encoding="utf-8")
@@ -928,13 +983,15 @@ async def resource_guard():
 #   START
 # ────────────────────────────────────────────────
 async def main():
+    await start_health_server()   # bind $PORT FIRST — so Render's port-scan
+                                   # passes immediately even if Telegram's
+                                   # connection/DC-migration is briefly slow
     await factory.start(bot_token=BOT_TOKEN)
     me = await factory.get_me()
     log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     log.info("🏭 CLONE FACTORY BOT STARTED")
     log.info(f"🤖 @{me.username}")
     log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    await start_health_server()   # needed on Koyeb/Render — must bind $PORT
     if mongo_clones is not None:
         await mongo_hydrate_all()               # primary: rebuild clones/ from MongoDB
     else:
