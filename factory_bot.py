@@ -1,27 +1,3 @@
-# ────────────────────────────────────────────────
-#   FUN BOT — CLONE FACTORY (management Bot API bot)
-#
-#   WHAT THIS DOES:
-#   - Runs as a normal Telegram Bot (via @BotFather token), NOT a userbot.
-#   - Lets anyone generate their own fun_bot clone by giving API_ID,
-#     API_HASH, and OWNER_ID through chat.
-#   - Deliberately does NOT ask for phone number or OTP anywhere in this
-#     bot. Login for each clone happens in the owner's own terminal by
-#     running funbot_core.py --login-only, where Telethon's own prompt
-#     asks for phone/code directly — this bot never sees or stores it.
-#   - Once a clone has logged in (its session file exists), this factory
-#     auto-starts and monitors it as a background subprocess.
-#   - Provides a settings menu so each owner can tweak their own clone's
-#     cooldown / reactions without touching a terminal again.
-#
-#   SETUP:
-#   1. Get a bot token from @BotFather → set BOT_TOKEN below.
-#   2. Get your own API_ID / API_HASH from my.telegram.org → set below
-#      (this is for the FACTORY bot's own connection, separate from any
-#      clone's credentials).
-#   3. Make sure funbot_core.py sits in the same folder as this script.
-#   4. python factory_bot.py
-# ────────────────────────────────────────────────
 
 import asyncio
 import json
@@ -38,42 +14,29 @@ from typing import Dict, Optional
 import psutil
 from aiohttp import web
 from telethon import TelegramClient, events, Button
-from telethon.errors import RPCError
+from telethon.errors import RPCError, MessageNotModifiedError
 
 try:
     from motor.motor_asyncio import AsyncIOMotorClient
 except ImportError:
     AsyncIOMotorClient = None
 
-# ────────────────────────────────────────────────
-#   CONFIG — reads from environment variables (set these in Koyeb's
-#   dashboard under your app's Environment Variables, NOT in this file).
-#   Local testing: you can still hardcode fallback values below, but
-#   never commit real secrets to a public/shared repo.
-# ────────────────────────────────────────────────
+
 FACTORY_API_ID = int(os.environ.get("FACTORY_API_ID", "12345678"))
 FACTORY_API_HASH = os.environ.get("FACTORY_API_HASH", "your_api_hash_here")
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "123456789:your-botfather-token-here")
 
-# Numeric Telegram user ID of YOU, the person running this factory bot.
-# Only this ID can open /admin and see the owner panel below.
-FACTORY_OWNER_ID = int(os.environ.get("FACTORY_OWNER_ID", "0"))
 
-# MongoDB — set MONGODB_URI to your Atlas connection string as an env var.
-# If left empty, the bot falls back to local-files-only mode (fine for a
-# real VPS with persistent disk; NOT safe on Koyeb/Render where the
-# filesystem resets on every redeploy).
+FACTORY_OWNER_ID = int(os.environ.get("FACTORY_OWNER_ID", "0").split(",")[0].strip() or "0")
+FACTORY_OWNER_IDS = {
+    int(x.strip()) for x in os.environ.get("FACTORY_OWNER_ID", "0").split(",") if x.strip().isdigit()
+} - {0}
+
+
 MONGODB_URI = os.environ.get("MONGODB_URI", "")
 MONGODB_DB_NAME = os.environ.get("MONGODB_DB_NAME", "funbot_factory")
 
-# ── Public/restricted Mongo URI (used ONLY in the Colab login snippet we
-# hand to end-users, so they never see your main admin-level MONGODB_URI).
-# Create a SEPARATE MongoDB Atlas database user with readWrite access
-# scoped to MONGODB_DB_NAME only (not admin/dbAdmin) and put its
-# connection string here. Falls back to MONGODB_URI if not set — but
-# that means every user who runs the Colab step sees your full-access
-# connection string, so only leave this unset if you fully trust every
-# person who will ever use this bot.
+
 PUBLIC_MONGODB_URI = os.environ.get("PUBLIC_MONGODB_URI", MONGODB_URI)
 
 # Raw GitHub URL to funbot_core.py — the Colab snippet downloads it from
@@ -117,6 +80,18 @@ running_procs: Dict[str, subprocess.Popen] = {}   # owner_id(str) -> process han
 mongo_client = AsyncIOMotorClient(MONGODB_URI) if (MONGODB_URI and AsyncIOMotorClient) else None
 mongo_db = mongo_client[MONGODB_DB_NAME] if mongo_client is not None else None
 mongo_clones = mongo_db["clones"] if mongo_db is not None else None
+
+async def safe_edit(event, *args, **kwargs):
+    """event.edit() wrapper. Telegram raises MessageNotModifiedError if you
+    edit a message to exactly the same content it already has (e.g. someone
+    double-taps 'My Clone Status' and nothing changed between taps). That's
+    not a real failure, so we swallow just that one specific error instead
+    of letting it crash the handler as an 'Unhandled exception'."""
+    try:
+        await event.edit(*args, **kwargs)
+    except MessageNotModifiedError:
+        pass
+
 
 MAIN_MENU = [
     [Button.inline("🧬 Make My Own Clone", b"make_clone")],
@@ -167,7 +142,7 @@ def default_settings() -> dict:
 
 
 def is_factory_owner(uid: int) -> bool:
-    return FACTORY_OWNER_ID != 0 and uid == FACTORY_OWNER_ID
+    return uid in FACTORY_OWNER_IDS
 
 
 def all_owner_dirs():
@@ -177,14 +152,7 @@ def all_owner_dirs():
             yield d.name, d
 
 
-# ────────────────────────────────────────────────
-#   MONGODB HELPERS (feature 9 — Database Integration)
-#   config.json / settings.json / funbot_session.txt stay as the LOCAL
-#   working copies (funbot_core.py subprocess reads them directly), but
-#   every change is mirrored to Mongo, and mongo_hydrate_all() rebuilds
-#   those local files from Mongo on startup — so a redeploy on a
-#   no-persistent-disk host (Koyeb, Render) doesn't lose anything.
-# ────────────────────────────────────────────────
+
 async def mongo_upsert_clone(owner_id: int, cfg: Optional[dict] = None, settings: Optional[dict] = None):
     if mongo_clones is None:
         return
@@ -280,15 +248,16 @@ async def start(event):
         "Apna khud ka fun-reaction userbot banao. Login kabhi bhi is bot ke "
         "through nahi hota — phone number/OTP hamesha tumhare apne terminal "
         "me, sirf tumhare control me.\n\n"
-        "Neeche se option chuno:",
+        "Neeche se option chuno:\n\n"
+        "Made with ❤️ TEAMVB",
         buttons=MAIN_MENU,
     )
 
 
 @factory.on(events.CallbackQuery(data=b"back_main"))
 async def back_main(event):
-    await event.edit(
-        "👋 **Fun Bot — Clone Factory**\n\nNeeche se option chuno:",
+    await safe_edit(event, 
+        "👋 **Fun Bot — Clone Factory**\n\nNeeche se option chuno:\n\nMade with ❤️ TEAMVB",
         buttons=MAIN_MENU,
     )
 
@@ -407,7 +376,7 @@ async def my_status(event):
         return
 
     if not session_path(owner_id).is_file():
-        await event.edit(
+        await safe_edit(event, 
             "⏳ **Login baaki hai**\n\n"
             "Config ban chuka hai lekin login abhi complete nahi hua. "
             "Wizard ke message me diya gaya command apne terminal me chalao.",
@@ -418,7 +387,7 @@ async def my_status(event):
     proc = running_procs.get(str(owner_id))
     alive = proc is not None and proc.poll() is None
     status_txt = "🟢 Running" if alive else "🟡 Login ho chuka hai, agle check me (≤15s) auto-start hoga"
-    await event.edit(f"📋 **Clone Status**\n{status_txt}", buttons=MAIN_MENU)
+    await safe_edit(event, f"📋 **Clone Status**\n{status_txt}", buttons=MAIN_MENU)
 
 
 # ────────────────────────────────────────────────
@@ -433,7 +402,7 @@ async def my_settings(event):
 
     s = load_json(settings_path(owner_id)) or default_settings()
     react_state = "ON ✅" if s.get("react_enabled_global", True) else "OFF ❌"
-    await event.edit(
+    await safe_edit(event, 
         "⚙️ **My Clone Settings**\n\n"
         f"⏱️ Default cooldown: **{s.get('default_cooldown', 3)}s**\n"
         f"😀 Reactions (all groups): **{react_state}**\n\n"
@@ -498,7 +467,7 @@ async def delete_clone(event):
     if not config_path(owner_id).is_file():
         await event.answer("Aapka koi clone nahi hai.", alert=True)
         return
-    await event.edit(
+    await safe_edit(event, 
         "🗑️ **Pakka delete karna hai?**\n\n"
         "Ye tumhara clone stop kar dega aur uska config/session/data sab delete kar dega. "
         "Ye undo nahi ho sakta.",
@@ -527,7 +496,7 @@ async def confirm_delete(event):
         log.error(f"Delete error for {owner_id}: {e}")
 
     await mongo_delete_clone(owner_id)
-    await event.edit("🗑️ Clone delete ho gaya.", buttons=MAIN_MENU)
+    await safe_edit(event, "🗑️ Clone delete ho gaya.", buttons=MAIN_MENU)
 
 
 # ────────────────────────────────────────────────
@@ -632,7 +601,7 @@ async def admin_back(event):
     if not is_factory_owner(event.sender_id):
         await event.answer("⛔ Ye sirf owner ke liye hai.", alert=True)
         return
-    await event.edit("👑 **Owner Panel**\n\nChuno:", buttons=ADMIN_MENU)
+    await safe_edit(event, "👑 **Owner Panel**\n\nChuno:", buttons=ADMIN_MENU)
 
 
 # ── Broadcast: send a message to every registered clone owner ──
@@ -736,7 +705,7 @@ async def adm_users(event):
     if len(text) > 3900:
         text = text[:3900] + "\n\n… (list truncated)"
 
-    await event.edit(text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
+    await safe_edit(event, text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
 
 
 # ── View Errors: tail the factory log + each clone's recent error lines ──
@@ -776,7 +745,7 @@ async def adm_errors(event):
     if len(text) > 3900:
         text = text[:3900] + "\n\n… (truncated, poore logs ke liye server pe log files check karo)"
 
-    await event.edit(text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
+    await safe_edit(event, text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
 
 
 # ── Stats: quick numeric summary ──
@@ -802,7 +771,7 @@ async def adm_stats(event):
         f"🔑 Logged in: **{logged_in}**\n"
         f"🟢 Currently running: **{running}**"
     )
-    await event.edit(text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
+    await safe_edit(event, text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
 
 
 # ── Backup Now: on-demand zip of all clone data, sent to owner's DM ──
@@ -813,19 +782,12 @@ async def adm_backup(event):
         return
     await event.answer("📦 Backup bana raha hoon…")
     await send_backup_to_owner(reason="manual (owner panel)")
-    await event.edit(
+    await safe_edit(event, 
         "✅ Backup tumhari DM me bhej diya (isi chat me upar dekho).",
         buttons=[[Button.inline("⬅️ Back", b"adm_back")]],
     )
 
 
-# ────────────────────────────────────────────────
-#   BACKGROUND WATCHER — auto-starts/monitors every logged-in clone
-#   Now also detects crashes vs a clean exit, DMs the clone owner (and
-#   you) with a summary, and specifically flags an invalid/expired
-#   session so the owner knows to re-login instead of the watcher
-#   silently retrying forever (features 1 & 2).
-# ────────────────────────────────────────────────
 def start_clone_process(owner_key: str, owner_dir: Path, cfg_file: Path):
     log_path = owner_dir / "clone_output.log"
     logf = open(log_path, "a", encoding="utf-8")
