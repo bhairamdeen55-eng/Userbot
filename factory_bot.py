@@ -121,6 +121,78 @@ running_procs: Dict[str, subprocess.Popen] = {}   # owner_id(str) -> process han
 mongo_client = AsyncIOMotorClient(MONGODB_URI) if (MONGODB_URI and AsyncIOMotorClient) else None
 mongo_db = mongo_client[MONGODB_DB_NAME] if mongo_client is not None else None
 mongo_clones = mongo_db["clones"] if mongo_db is not None else None
+mongo_blacklist = mongo_db["blacklist"] if mongo_db is not None else None
+
+# ────────────────────────────────────────────────
+#   GLOBAL BLACKLIST (feature: G-BAN / anti-abuse)
+#   BANNED_IDS is kept in memory for instant checks on every single
+#   incoming update (no DB round-trip per message). load_blacklist()
+#   fills it from Mongo at startup; ban_owner()/unban_owner() keep both
+#   the in-memory set and Mongo in sync.
+# ────────────────────────────────────────────────
+BANNED_IDS: set[int] = set()
+
+
+async def load_blacklist():
+    if mongo_blacklist is None:
+        return
+    try:
+        async for doc in mongo_blacklist.find({}):
+            uid = doc.get("owner_id")
+            if uid is not None:
+                BANNED_IDS.add(int(uid))
+        log.info(f"🚫 Loaded {len(BANNED_IDS)} banned ID(s) from MongoDB.")
+    except Exception as e:
+        log.error(f"load_blacklist failed: {e}")
+
+
+async def ban_owner(owner_id: int, reason: str = ""):
+    BANNED_IDS.add(owner_id)
+    # kill + wipe any existing clone for this ID
+    proc = running_procs.pop(str(owner_id), None)
+    if proc is not None and proc.poll() is None:
+        proc.terminate()
+    owner_dir = clone_dir(owner_id)
+    if owner_dir.is_dir():
+        shutil.rmtree(owner_dir, ignore_errors=True)
+    await mongo_delete_clone(owner_id)
+    if mongo_blacklist is not None:
+        try:
+            await mongo_blacklist.update_one(
+                {"owner_id": owner_id},
+                {"$set": {"owner_id": owner_id, "reason": reason, "banned_at": datetime.now().isoformat()}},
+                upsert=True,
+            )
+        except Exception as e:
+            log.error(f"ban_owner mongo write failed: {e}")
+
+
+async def unban_owner(owner_id: int):
+    BANNED_IDS.discard(owner_id)
+    if mongo_blacklist is not None:
+        try:
+            await mongo_blacklist.delete_one({"owner_id": owner_id})
+        except Exception as e:
+            log.error(f"unban_owner mongo delete failed: {e}")
+
+
+# These two handlers are defined FIRST (before any other @factory.on(...))
+# so Telethon dispatches them before every other handler. Raising
+# StopPropagation stops the update from reaching anything else — a
+# banned user's messages/button-taps never reach the wizard, admin panel,
+# or any other logic below.
+@factory.on(events.NewMessage())
+async def _block_banned_messages(event):
+    if event.sender_id in BANNED_IDS and event.sender_id not in FACTORY_OWNER_IDS:
+        await event.reply("🚫 Aap is bot se ban ho — kisi bhi feature ka access nahi hai.")
+        raise events.StopPropagation
+
+
+@factory.on(events.CallbackQuery())
+async def _block_banned_callbacks(event):
+    if event.sender_id in BANNED_IDS and event.sender_id not in FACTORY_OWNER_IDS:
+        await event.answer("🚫 Aap is bot se ban ho.", alert=True)
+        raise events.StopPropagation
 
 async def safe_edit(event, *args, **kwargs):
     """event.edit() wrapper. Telegram raises MessageNotModifiedError if you
@@ -179,7 +251,16 @@ def save_json(path: Path, obj: dict):
 
 
 def default_settings() -> dict:
-    return {"default_cooldown": 3, "react_enabled_global": True}
+    return {
+        "default_cooldown": 3,
+        "react_enabled_global": True,
+        # Anti-ban / Human Mode: during this daily window the clone pauses
+        # ALL activity (replies + reactions) and adds randomized delays the
+        # rest of the time, to look less like an obvious 24/7 bot.
+        "human_mode": False,
+        "sleep_start": "00:00",
+        "sleep_end": "06:00",
+    }
 
 
 def is_factory_owner(uid: int) -> bool:
@@ -304,10 +385,15 @@ async def start(event):
 
 @factory.on(events.CallbackQuery(data=b"back_main"))
 async def back_main(event):
-    await safe_edit(event, 
-        "👋 **Fun Bot — Clone Factory**\n\nNeeche se option chuno:\n\nMade with ❤️ TEAMVB",
+        await safe_edit(event, 
+        "👋 **Fun Bot — Clone Factory** 🏭\n\n"
+        "⚡️ _Aapka apna personal userbot manager!_\n"
+        "Neeche diye gaye buttons se apna option chuno 👇\n\n"
+        "━━━━━━━━━━━━━━━━━━━━\n"
+        "✨ Made with ❤️ by **TEAMVB**",
         buttons=MAIN_MENU,
     )
+
 
 
 # ────────────────────────────────────────────────
@@ -450,17 +536,66 @@ async def my_settings(event):
 
     s = load_json(settings_path(owner_id)) or default_settings()
     react_state = "ON ✅" if s.get("react_enabled_global", True) else "OFF ❌"
+    human_state = "ON 🛡️" if s.get("human_mode", False) else "OFF"
     await safe_edit(event, 
         "⚙️ **My Clone Settings**\n\n"
         f"⏱️ Default cooldown: **{s.get('default_cooldown', 3)}s**\n"
-        f"😀 Reactions (all groups): **{react_state}**\n\n"
+        f"😀 Reactions (all groups): **{react_state}**\n"
+        f"🛡️ Human Mode (anti-ban sleep): **{human_state}**\n"
+        f"🌙 Sleep window: **{s.get('sleep_start','00:00')} – {s.get('sleep_end','06:00')}**\n\n"
         "Change karne ke liye neeche se chuno (~20s me clone pe apply ho jayega, restart ki zaroorat nahi):",
         buttons=[
             [Button.inline("⏱️ 3s", b"cd_3"), Button.inline("⏱️ 30s", b"cd_30"), Button.inline("⏱️ 60s", b"cd_60")],
             [Button.inline("😀 Reactions ON", b"react_on"), Button.inline("🙅 Reactions OFF", b"react_off")],
+            [Button.inline("🛡️ Human Mode ON", b"human_on"), Button.inline("🛡️ Human Mode OFF", b"human_off")],
+            [Button.inline("🌙 00:00–06:00", b"sleep_0006"), Button.inline("🌙 01:00–07:00", b"sleep_0107"), Button.inline("🌙 23:00–05:00", b"sleep_2305")],
             [Button.inline("⬅️ Back", b"back_main")],
         ],
     )
+
+
+@factory.on(events.CallbackQuery(data=b"human_on"))
+async def human_on(event):
+    owner_id = event.sender_id
+    if not config_path(owner_id).is_file():
+        await event.answer("Pehle apna clone banao.", alert=True)
+        return
+    s = load_json(settings_path(owner_id)) or default_settings()
+    s["human_mode"] = True
+    save_json(settings_path(owner_id), s)
+    await mongo_upsert_clone(owner_id, settings=s)
+    await event.answer("Human Mode ON 🛡️ — clone ab sleep window me pause hoga")
+    await my_settings(event)
+
+
+@factory.on(events.CallbackQuery(data=b"human_off"))
+async def human_off(event):
+    owner_id = event.sender_id
+    if not config_path(owner_id).is_file():
+        await event.answer("Pehle apna clone banao.", alert=True)
+        return
+    s = load_json(settings_path(owner_id)) or default_settings()
+    s["human_mode"] = False
+    save_json(settings_path(owner_id), s)
+    await mongo_upsert_clone(owner_id, settings=s)
+    await event.answer("Human Mode OFF")
+    await my_settings(event)
+
+
+@factory.on(events.CallbackQuery(pattern=b"^sleep_(\\d{2})(\\d{2})$"))
+async def set_sleep_window(event):
+    owner_id = event.sender_id
+    if not config_path(owner_id).is_file():
+        await event.answer("Pehle apna clone banao.", alert=True)
+        return
+    start_h, end_h = event.pattern_match.group(1).decode(), event.pattern_match.group(2).decode()
+    s = load_json(settings_path(owner_id)) or default_settings()
+    s["sleep_start"] = f"{start_h}:00"
+    s["sleep_end"] = f"{end_h}:00"
+    save_json(settings_path(owner_id), s)
+    await mongo_upsert_clone(owner_id, settings=s)
+    await event.answer(f"Sleep window {s['sleep_start']}–{s['sleep_end']} set ho gaya ✅")
+    await my_settings(event)
 
 
 @factory.on(events.CallbackQuery(pattern=b"^cd_(\\d+)$"))
@@ -554,9 +689,71 @@ ADMIN_MENU = [
     [Button.inline("📢 Broadcast Message", b"adm_broadcast")],
     [Button.inline("👥 View Users", b"adm_users")],
     [Button.inline("🐞 View Errors", b"adm_errors")],
+    [Button.inline("📡 Live Logs", b"adm_logs")],
     [Button.inline("📊 Stats", b"adm_stats")],
     [Button.inline("📦 Backup Now", b"adm_backup")],
+    [Button.inline("🚫 Ban User", b"adm_ban"), Button.inline("✅ Unban User", b"adm_unban")],
 ]
+
+
+# ── Ban: kill + wipe a clone and permanently block that Telegram ID ──
+@factory.on(events.CallbackQuery(data=b"adm_ban"))
+async def adm_ban_start(event):
+    if not is_factory_owner(event.sender_id):
+        await event.answer("⛔ Ye sirf owner ke liye hai.", alert=True)
+        return
+    await event.answer()
+    chat_id = event.sender_id
+    try:
+        async with factory.conversation(chat_id, timeout=120) as conv:
+            await conv.send_message(
+                "🚫 **Ban User — numeric Telegram ID bhejo** jise ban karna hai.\n"
+                "Iska clone turant stop + delete ho jayega, aur wo dobara "
+                "**Make My Own Clone** use nahi kar payega. Cancel ke liye /cancel.",
+            )
+            r = await conv.get_response()
+            if r.raw_text.strip() == "/cancel":
+                await conv.send_message("❌ Cancel kar diya.", buttons=ADMIN_MENU)
+                return
+            if not r.raw_text.strip().isdigit():
+                await conv.send_message("⚠️ Sirf numeric ID bhejo. Dobara **Ban User** try karo.", buttons=ADMIN_MENU)
+                return
+            target_id = int(r.raw_text.strip())
+            await ban_owner(target_id, reason=f"banned by owner {chat_id}")
+            try:
+                await factory.send_message(target_id, "🚫 Aapko is bot se permanently ban kar diya gaya hai.")
+            except Exception:
+                pass
+            await conv.send_message(f"✅ `{target_id}` ban ho gaya — clone stop/delete ho gaya.", buttons=ADMIN_MENU)
+    except asyncio.TimeoutError:
+        await factory.send_message(chat_id, "⏳ Time out ho gaya.", buttons=ADMIN_MENU)
+
+
+# ── Unban: remove a Telegram ID from the blacklist ──
+@factory.on(events.CallbackQuery(data=b"adm_unban"))
+async def adm_unban_start(event):
+    if not is_factory_owner(event.sender_id):
+        await event.answer("⛔ Ye sirf owner ke liye hai.", alert=True)
+        return
+    await event.answer()
+    chat_id = event.sender_id
+    try:
+        async with factory.conversation(chat_id, timeout=120) as conv:
+            await conv.send_message(
+                "✅ **Unban User — numeric Telegram ID bhejo.** Cancel ke liye /cancel."
+            )
+            r = await conv.get_response()
+            if r.raw_text.strip() == "/cancel":
+                await conv.send_message("❌ Cancel kar diya.", buttons=ADMIN_MENU)
+                return
+            if not r.raw_text.strip().isdigit():
+                await conv.send_message("⚠️ Sirf numeric ID bhejo. Dobara **Unban User** try karo.", buttons=ADMIN_MENU)
+                return
+            target_id = int(r.raw_text.strip())
+            await unban_owner(target_id)
+            await conv.send_message(f"✅ `{target_id}` unban ho gaya — ab dobara clone bana sakta hai.", buttons=ADMIN_MENU)
+    except asyncio.TimeoutError:
+        await factory.send_message(chat_id, "⏳ Time out ho gaya.", buttons=ADMIN_MENU)
 
 
 def make_backup_zip() -> Path:
@@ -748,12 +945,16 @@ async def adm_users(event):
         text = "👥 **Users**\n\nAbhi tak koi clone register nahi hua."
     else:
         text = "👥 **Users** (" + str(len(rows)) + ")\n\n" + "\n".join(rows)
+    text += f"\n\n🕐 Updated: {datetime.now():%H:%M:%S}"
 
     # Telegram messages cap out around 4096 chars — trim if the list is huge
     if len(text) > 3900:
         text = text[:3900] + "\n\n… (list truncated)"
 
-    await safe_edit(event, text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
+    await safe_edit(event, text, buttons=[
+        [Button.inline("🔄 Refresh", b"adm_users")],
+        [Button.inline("⬅️ Back", b"adm_back")],
+    ])
 
 
 # ── View Errors: tail the factory log + each clone's recent error lines ──
@@ -789,11 +990,47 @@ async def adm_errors(event):
         text = "🐞 **Errors**\n\nAbhi tak koi error log nahi mila. Sab theek lag raha hai ✅"
     else:
         text = "🐞 **Recent Errors**\n\n" + "\n\n".join(chunks)
+    text += f"\n\n🕐 Updated: {datetime.now():%H:%M:%S}"
 
     if len(text) > 3900:
         text = text[:3900] + "\n\n… (truncated, poore logs ke liye server pe log files check karo)"
 
-    await safe_edit(event, text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
+    await safe_edit(event, text, buttons=[
+        [Button.inline("🔄 Refresh", b"adm_errors")],
+        [Button.inline("⬅️ Back", b"adm_back")],
+    ])
+
+
+# ── Live Logs: raw tail of the factory bot's own log (last 30-40 lines,
+#   unfiltered — everything, not just ERROR/WARNING like adm_errors above).
+#   Refreshable, Render's own log viewer jaisa. ──
+@factory.on(events.CallbackQuery(data=b"adm_logs"))
+async def adm_logs(event):
+    if not is_factory_owner(event.sender_id):
+        await event.answer("⛔ Ye sirf owner ke liye hai.", alert=True)
+        return
+    await event.answer()
+
+    factory_log = BASE_DIR / "factory_bot.log"
+    if not factory_log.is_file():
+        text = "📡 **Live Logs**\n\nAbhi tak koi log file nahi mili."
+    else:
+        lines = factory_log.read_text(encoding="utf-8", errors="ignore").splitlines()
+        tail_lines = lines[-35:]  # last 30-40 lines
+        log_text = "\n".join(tail_lines) if tail_lines else "(khali)"
+        text = "📡 **Live Logs** (last 35 lines)\n\n```\n" + log_text + "\n```"
+
+    text += f"\n\n🕐 Updated: {datetime.now():%H:%M:%S}"
+
+    if len(text) > 3900:
+        # keep the tail end (most recent lines), not the head
+        overflow = len(text) - 3850
+        text = "📡 **Live Logs** (truncated)\n\n```\n…" + text[overflow:]
+
+    await safe_edit(event, text, buttons=[
+        [Button.inline("🔄 Refresh", b"adm_logs")],
+        [Button.inline("⬅️ Back", b"adm_back")],
+    ])
 
 
 # ── Stats: quick numeric summary ──
@@ -817,9 +1054,13 @@ async def adm_stats(event):
         "📊 **Stats**\n\n"
         f"👥 Total registered clones: **{total}**\n"
         f"🔑 Logged in: **{logged_in}**\n"
-        f"🟢 Currently running: **{running}**"
+        f"🟢 Currently running: **{running}**\n\n"
+        f"🕐 Updated: {datetime.now():%H:%M:%S}"
     )
-    await safe_edit(event, text, buttons=[[Button.inline("⬅️ Back", b"adm_back")]])
+    await safe_edit(event, text, buttons=[
+        [Button.inline("🔄 Refresh", b"adm_stats")],
+        [Button.inline("⬅️ Back", b"adm_back")],
+    ])
 
 
 # ── Backup Now: on-demand zip of all clone data, sent to owner's DM ──
@@ -996,6 +1237,7 @@ async def main():
         await mongo_hydrate_all()               # primary: rebuild clones/ from MongoDB
     else:
         await restore_latest_backup_from_telegram()  # fallback: no DB configured
+    await load_blacklist()
     asyncio.create_task(process_watcher())
     asyncio.create_task(backup_scheduler())
     asyncio.create_task(resource_guard())
