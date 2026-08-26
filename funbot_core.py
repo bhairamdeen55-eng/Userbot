@@ -131,69 +131,122 @@ log = logging.getLogger("funbot")
 #   REPLY BANKS (mood-based, all replies 2-4 words)
 # ────────────────────────────────────────────────
 HYPE_REPLIES = [
-    "🔥 Full energy bhai",
-    "🎉 Party mode on",
-    "🥳 Vibes are lit",
-    "💯 Pure facts yaar",
-    "🚀 Upar hi upar",
-    "⚡ Full power on",
-    "🏆 Champion move bhai",
-    "🎯 Bullseye energy hai",
-    "🎊 Confetti time now",
-    "🌟 Star player alert",
-    "🔊 Volume up bhai",
-    "🥇 Gold medal reply",
-    "🕺 Naach uth gaya",
-    "🎆 Fireworks incoming bhai",
-    "🚨 Too much swag",
+    # ── Upgraded Original Hype Messages ──
+    "🔥 Full energy active bhai! Atmosphere bilkul next-level hype ho chuka hai! 🚀",
+    "🎉 Party mode FULL ON! Scene set hai, ab bas non-stop chill vibes chalne do! 🥳✨",
+    "🥳 Unstoppable vibes right now! Har jagah bas lit atmosphere faila hua hai! 🎆",
+    "💯 Pure facts bol diye bhai! Isse behtar aur accurate statement ho hi nahi sakta! 🎯",
+    "🚀 Rocket speed se upar hi upar! Agla stop seedha outer space hone wala hai! 💥",
+    "⚡ Full power generation mode! Energy meter completely break ho gaya hai boss! 🔋",
+    "🏆 Absolute champion move! Masterclass performance dikha diya aaj toh tumne! 🥇",
+    "🎯 Direct hit on target! Perfect precision aur top-tier energy hai bhai! 🏹",
+    "🎊 Grand celebration time! System me confetti aur fireworks full-on active! 🎆✨",
+    "🌟 Star player alert! Main spotlight abhi seedha aapke upar focused hai! 📸",
+    "🔊 Max volume baseline drop! Speaker full boost par set kar diye hain! 🎶",
+    "🥇 Gold medal standard reply! Premium quality swag bilkul unmatched hai! 👑",
+    "🕺 Unmatched moves & groove! Chat me dhoom mach gayi hai poori tarah se! 💃",
+    "🎆 Sky-high fireworks display! Aasmaan me bas glowing celebration chal raha hai! ✨",
+    "🚨 Dangerously high swag alert! Limit se bahar waali electric energy hai bhai! 🔥",
+    "💣 BOOM! Explosive response delivered! Content aisa ki baaki sab dekhte reh gaye! 💥",
+    "👑 King size energy check! Full domination mode turn on ho chuka hai, stay tuned! ⚡",
+    "🏎️ Top gear hyper-drive mode! Speed, power aur hype sab ek saath unlock ho gaya! 🏁",
+    "💎 Pure diamond-grade response! Standard itna high hai ki koi match hi nahi kar sakta! ✨",
+    "🍿 Peak entertainment active! Scene me abhi aur bhi jabardast twists aayenge! 🎬",
+    "🌟 Legendary presence detected! History create karne waali energy radiate ho rahi hai! 🏆",
+    "🌊 Hype tsunami incoming! Is level ki energy ko handle karna next to impossible hai! ⚡",
+    "🧠 Next-level genius move! Big brain gameplay dekh kar sab ke sab stunned reh gaye! 💥",
+    "🔥 Ultra-instinct hype unlocked! Boundary se bahar jaakar swag spread ho raha hai! 🚀",
+    "⚡ High-voltage system overload! Current itna teez hai ki meter crash ho gaya bhai! 🔌",
+    "🎯 Pitch-perfect execution! Zero delay, zero error, 100% pure high-impact response! 💯",
+    "🌟 Next generation trendsetter! Game ka poora format hi change kar diya aapne! 📈"
 ]
 
 CHILL_REPLIES = [
-    "😂 Haha nice one",
-    "🤝 Squad approved bhai",
-    "😎 Cool cool cool",
-    "😅 Sunna hi padega",
-    "🙂 Sahi hai bhai",
-    "☕ Chai pe charcha",
-    "🌤️ Halka phulka vibe",
-    "🧘 Shaant sukoon wali",
-    "🍃 Aaram se bhai",
-    "😌 Bilkul theek laga",
-    "🎈 Simple sweet solid",
-    "🪁 Udta hua mood",
-    "🛋️ Comfy vibes only",
-    "🌙 Chill raho bhai",
-    "😊 Accha laga padhke",
+    # ── Upgraded Original Chill Messages ──
+    "😂 Hahahahaha wah bhai! Solid sense of humor, poora scene hi light aur joyful kar diya! ⚡",
+    "🤝 Squad approved message! Poore group ka stamp lag gaya hai is relaxed vibe par! ✨",
+    "😎 Cool, cool, cool, smooth response! Bilkul effortless level ka chill aura hai bhai! 🧊",
+    "😅 Ye baat toh pure dil se sunni aur feel karni hi padegi! Pure positive frequency! 🕊️",
+    "🙂 Sahi chal raha hai sab kuch bhai! Pure peaceful aur balanced energy spread ho rahi hai! 🍃",
+    "☕ Chai pe charcha mode active! Aaram se baith ke har ek baat detailed discuss karenge! 🛋️",
+    "🌤️ Ekdum halka phulka aur soothing vibe! Mind completely fresh aur relaxed ho gaya! 🌸",
+    "🧘 Utmost shaant aur sukoon wali state! Sab stress door aur aura completely relaxed hai! ✨",
+    "🍃 Aaram se tension free raho bhai! Koi jaldi nahi hai, smooth flow chalne do! 🕊️",
+    "😌 Bilkul theek aur genuine laga padhke! Perfect harmony aur calm response! 💯",
+    "🎈 Simple, sweet, solid aur zero complexity! Yehi toh asli quality hai bhai! ✨",
+    "🪁 Aasmaan me udta hua light mood! Completely free-flowing aur positive mindset! 🌈",
+    "🛋️ Comfy vibes only allowed here! Pillow, snacks aur chill conversations ka combo! 🍿",
+    "🌙 Chill raho tension free bhai! Raat ho ya din, apan hamesha smooth mode me hain! ☕",
+    "😊 Heartwarming response! Padhke sach me accha aur completely satisfying laga! ✨,
+    "🌊 Deep ocean calmness level! Chill frequency match ho gayi hai poori tarah se! 🏝️",
+    "🧘 Perfect state of equilibrium! Zero rush, zero noise, pure inner peace energy! ✨",
+    "🍃 Gentle breeze wala peaceful atmosphere! Scene bilkul sorted aur effortless lag raha hai! 🕊️",
+    "☕ Warm cup of tea aur relaxing conversations! Din set karne wala soothing response hai! 🌤️",
+    "🛋️ Ultimate comfort zone unlocked! Stress zero percent, chill vibes hundred percent! 🍿",
+    "🕊️ Soft aur graceful energy overall! Sab kuch ekdum systematic aur relaxed pace par hai! ✨",
+    "🌟 Effortlessly cool statement! Bilkul smooth, subtle aur high-class positivity! 🪞",
+    "📻 Retro chill radio vibes active! Atmosphere me ek alag hi relaxing rhythm chal rahi hai! 🎶",
+    "🍀 Positivity aur good fortune spread ho raha hai! Har word me ek calming touch hai! ✨",
+    "🌄 Fresh morning sunrise jaisi bright aur soothing feel! Whole day sorted by this vibe! 🌤️",
+    "🍦 Ice-cool mental composure! Koi hyper noise nahi, bas pure relaxed state of mind! 🧊",
+    "🕊️ Harmony, peace aur balance ka accurate blend! Perfect response to keep things cool! 🍃"
 ]
 
 ROAST_REPLIES = [
-    "😏 Wah kya baat",
-    "🙃 Ye bhi koi baat",
-    "😬 Thoda aur try",
-    "🤨 Interesting take bhai",
-    "😂 Bhai tu bhi",
-    "🫣 Seedha nahi tha",
-    "😜 Maan liya chalo",
-    "🥲 Kabhi kabhi hota hai",
-    "😅 Full drama bhai",
-    "🤡 Full comedy hai",
-    "🙈 Sab dekh rahe",
-    "😹 Bas bas yaar",
-    "🫡 Salute is confidence",
-    "😌 Chalta hai yaar",
-    "🎭 Drama series ban sakta",
+    # ── Upgraded Original Roast Messages ──
+    "😏 Wah kya baat hai bhai! Aisa logic toh dhoondne par bhi Google par nahi milega! 🏅",
+    "🙃 Ye bhi koi baat hui bhala? Aisa lag raha hai bina brain reboot kiye type kar diya! 🧠",
+    "😬 Thoda aur try karo bhai, shayad agli baar response me thoda sense aur logic aa jaaye! 🎯",
+    "🤨 Substantially interesting take bhai! Aisa unique out-of-the-box thought process kahan se laaye? 🎭",
+    "😂 Bhai tu bhi na, next level comedy talent chhupa ke baitha hai, Oscar milega tujhe! 🎬",
+    "🫣 Path seedha toh bilkul nahi tha, kafi ghuma-phirake roundabout reasoning di hai! 🌀",
+    "😜 Chal maan liya teri baat, par agli baar aisa risk lene se pehle double check kar lena! ⚠️",
+    "🥲 Kabhi kabhi hota hai aisa mind-space, koi nahi hota rehta hai, improve kar loge! 🩹",
+    "😅 Full drama aur cinematic exaggeration chal raha hai! Daily soap ka script likh rahe ho kya? 📺",
+    "🤡 Full circus comedy energy active! Performance top-notch tha, bas logic gayab tha! 🎪",
+    "🙈 Poora public square dekh raha hai ye message, thoda toh composure maintain kar lo bhai! 📢",
+    "😹 Bas bas yaar aur mat hansao, pet me dard hone laga hai is unmatched creativity se! 🍿",
+    "🫡 Salute hai tumhare is absolute unshakeable confidence ko! Logic zero, confidence 100%! 🚀",
+    "😌 Chalta hai yaar, har din brain optimal efficiency par kaam nahi karta, take it easy! 🛋️",
+    "🎭 Is response par toh multi-season Netflix drama series ban sakti hai, screenplay tayar hai! 🎬",
+    "🤡 Clown university se topper log aate hain aise out-of-world statements dene ke liye! 🎪",
+    "🚀 Is comment ka logic rocket se bhi tez speed me mere head ke upar se nikal gaya! 🛰️",
+    "📉 Stock market ki tarah aapka logical value is message ke baad sudden crash ho gaya! 📊",
+    "🧠 System searching for valid argument... Error 404: Logic not found anywhere in memory! 🔍",
+    "🏆 Achievement unlocked: Masterclass in creating pure unadulterated hilarious confusion! 🎭",
+    "🔎 Magnifying glass laga kar dhoond raha hoon ki is baat ka real context kahan chhupha hai! 🕵️",
+    "🎪 Circus open house announcement! Aaj ka main attraction aapka ye epic response tha! 🎟️",
+    "📉 Confidence level peak standard, Knowledge depth flat zero level! Dangerous combo bhai! ⚡",
+    "🧙 Aise unexpected twists toh Harry Potter ki books me bhi nahi mile the bhai! 🪄",
+    "📸 Picture-perfect moment of self-destruction! Internet archive me save hone layak scene hai! 💾",
+    "🏅 Gold medal in jumping to wildest assumptions! Olympic panel impressed ho gaya! 🏃",
+    "🎬 Mic drop moment tha, par unfortunately mic ulta pakda hua tha aapne! 🎤"
 ]
 
 NEUTRAL_REPLIES = [
-    "👍 Noted bhai",
-    "✅ Theek hai bhai",
-    "🙌 Squad approved",
-    "🤗 Accha laga",
-    "💬 Baat sahi hai",
-    "📌 Yaad rakha jayega",
-    "🎶 Sunte rehna isse",
-    "🧩 Fit baith gaya",
+    # ── Upgraded Original Neutral Messages ──
+    "👍 Message officially noted aur system database me successfully log kar diya gaya hai! 📝",
+    "✅ Bilkul theek hai bhai, points acknowledged aur process ke liye queue me add kar diye hain! 📌",
+    "🙌 Squad operational approval confirmed! Message successfully reviewed by the team! 📋",
+    "🤗 Accha laga input padhke, accurate positioning ke sath information transfer ho gayi! 💡",
+    "💬 Baat toh valid aur accurate hai, structured manner me points presenting acchi hai! 📊",
+    "📌 Important highlight points register kar liye gaye hain, reference ke liye save rahenge! 📁",
+    "🎶 Is frequency aur rhythm par focus bana ke rakho, systematic execution dikh rahi hai! ⚙️",
+    "🧩 Poora puzzle piece bilkul accurately fit baith gaya hai! Everything aligns properly! 🎯",
+    "📊 Data successfully received aur process ho gaya! Standard protocol flow continue ho raha hai! 📑",
+    "📥 Input successfully logged in the central repository! Next steps pipeline me align hain! ⏳",
+    "🧠 Thoughtful structure aur systematic delivery! Communication standard maintain rakha gaya hai! 🖊️",
+    "📌 Strategic note recorded! Continuous coordination aur balance ke sath आगे badhenge! 🎯",
+    "📝 Documentation updated as per the latest input! Clear, direct aur relevant details hain! 🗂️",
+    "📐 Standard measurement ke acche alignment me hai statement! Perfectly balanced perspective! 🔍",
+    "🛰️ Communication signal loud aur clear receive hua! System ready for next action steps! 📡",
+    "⚖️ Objective perspective successfully delivered! Fair, balanced aur precise message format! 📜",
+    "🗃️ Entry successfully archived for future reference! Everything operates as expected! ⚙️",
+    "💡 Valid information exchange detected! Context completely clear aur well organized hai! 🔍",
+    "🤝 Mutual alignment achieved on this point! Progressing further in a structured order! 📈",
+    "📈 Baseline information registered! Communication flow smooth aur effective bana hua hai! 🎯"
 ]
+
 
 MOOD_BANKS = {
     "hype": HYPE_REPLIES,
@@ -204,75 +257,206 @@ MOOD_BANKS = {
 ALL_REPLIES = HYPE_REPLIES + CHILL_REPLIES + ROAST_REPLIES + NEUTRAL_REPLIES
 
 DM_REPLIES = [
-    "👋 Thoda busy hoon",
-    "😊 Jald reply karunga",
-    "🙌 Baat karta hoon",
-    "📩 Reply aa raha",
-    "⏳ Wapas aata hoon",
-    "🙏 Reply jald aayega",
-    "🕐 Thoda wait karo",
-    "📨 Jald baat karte",
-    "😴 Away hoon abhi",
-    "🚶 Jald milta hoon",
-    "✋ Dekh raha hoon",
-    "🔔 Jaldi reply karunga",
-    "📲 Baat karte hain",
-    "🙋 Jald reply aayega",
-    "🧘 Jald connect karta",
+    # ── Upgraded Original Away/Busy Messages ──
+    "👋 Hey! Abhi thoda busy hoon ek important task me. Jaise hi free hota hoon, aapko proper reply karta hoon! ⏳",
+    "😊 Message mil gaya hai! Currently main unavailable hoon, thodi der me free ho kar aap se baat karta hoon. ✨",
+    "🙌 Aapka message process ho gaya hai. Abhi thoda time lag sakta hai, par jald hi detailed response bhejunga! 📩",
+    "📩 Notification receive ho gayi hai! System se active hotey hi aapko turant text back karta hoon. 📌",
+    "⏳ Abhi thoda away hoon desktop/mobile se. Wapas aate hi sabse pehle aapke message ka answer dunga! 🏃‍♂️",
+    "🙏 Aapka patience appreciated hai! Main abhi ek work session me hoon, free hotey hi connect karta hoon. 💯",
+    "🕐 Thoda wait kar lijiye please, main message read kar chuka hoon aur jald hi aap se interact karunga! 🤝",
+    "📨 Message securely receive ho gaya hai. Thodi der me clear aur proper solution/reply ke sath aata hoon! ✍️",
+    "😴 Abhi offline/away mode active hai. Wapas active hotey hi aapko notification chala jayega! 🌙",
+    "🚶 Out of station / task me busy hoon abhi. Jald hi desktop par wapas aakar reply drop karta hoon! 💻",
+    "✋ Message check kar liya hai, but abhi reply dene ka time nahi hai. Thodi der me milte hain! 🔍",
+    "🔔 Ping receive ho gaya hai! Next available slot me aapko turant text message mil jayega. 📱",
+    "📲 Aapka query/message log ho gaya hai. Fret not, jald hi personalized reply bhej raha hoon! 🚀",
+    "🙋 Hey! Inbox me message dekha. Thoda hold rakho, full focus ke sath response bhejta hoon! ⚡",
+    "🧘 Quiet mode on hai abhi. Jald hi active hokar aap se detailed discussion karta hoon! 🕊️",
+    # ── 10+ New Detailed & Professional Away Messages ──
+    "📊 Currently high-priority tasks handle kar raha hoon. Important updates ke sath jald hi inbox me milta hoon! 🎯",
+    "📌 Aapka DM inbox me safe hai! Schedule break milte hi aapko prioritized response bhej dunga. 📋",
+    "💻 Active execution mode ongoing! Task wrap-up karte hi aapko detailed answer ke sath DM karta hoon! ⚡",
+    "⚙️ Auto-responder status: Main abhi system se away hoon, but don't worry, aapka text note kar liya gaya hai! 📥",
+    "🚀 High efficiency mode me hoon abhi! Jald hi screen par wapas aakar aapse properly connect karta hoon! 🌐",
+    "🛡️ Priority session me busy hone ki wajah se delay ke liye sorry. Jald hi aapke DM ka response aayega! ⌛",
+    "📑 Message queued successfully! Jaise hi current workflow complete hota hai, aapko reach out karta hoon! 📬",
+    "🎯 Focused work mode ongoing. Interruptions avoid karne ke liye baad me reply dunga, thanks for understanding! 🧠",
+    "🔔 Alert set kar diya hai aapke DM par! Jaise hi notifications review karta hoon, aapko ping karunga! 📶",
+    "💡 Query/Message receive ho gaya hai! Proper research/analysis ke sath detailed response bhejunga! 📝",
+    "🏁 Workflow finish hone wala hai. Bus 10-15 mins me aapse chat par connect hota hoon! ⏱️",
+    "✨ Thanks for reaching out! Main filhaal away hoon par aapka topic prioritize kar ke jald reply dunga! 🌟",
 ]
 
-# ── Keyword → context-aware DM reply banks (all 2-4 words) ──
-DM_GREETING_TRIGGERS = ["hi", "hii", "hiii", "hello", "hey", "namaste", "namaskar", "yo"]
+# ── Keyword → Context-Aware DM Reply Banks (Detailed & Professional) ──
+DM_GREETING_TRIGGERS = [
+    "hi",
+    "hii",
+    "hiii",
+    "hello",
+    "hey",
+    "namaste",
+    "namaskar",
+    "yo",
+]
 DM_GREETING_REPLIES = [
-    "👋 Hey kaise ho",
-    "😊 Bolo kya haal",
-    "🙌 Hii sab badhiya",
-    "😄 Kya chal raha",
+    # ── Upgraded Originals ──
+    "👋 Hey! Warm welcome to the chat. Aashayein hain sab accha chal raha hoga, bataiye kaise madad kar sakta hoon? ✨",
+    "😊 Hello! Bohot accha laga aapse connect karke. Kaise hain aap aur aaj ka din kaisa chal raha hai? 🌟",
+    "🙌 Hii there! Sab kuch perfectly fine hai yahan. Aap bataiye, aaj inbox me aane ka kya main reason hai? 💬",
+    "😄 Hey! Super glad to see your message today. Bataiye kya new updates hain aur kaise chal raha hai sab? 🚀",
+    # ── 10+ New Detailed Entries ──
+    "👋 Hello & Welcome! Hope aapka din bohot productive aur accha guzar raha hoga. Kya query hai aapki? 🌸",
+    "🌟 Hey! Happy to connect with you. Sab set aur smooth chal raha hai, aap sunao kya scene hai aaj? 🤝",
+    "😄 Greetings! Main ekdum ready hoon assist karne ke liye, bataiye aaj kis topic par discussion karna hai? 🎯",
+    "✨ Namaskar / Hello! It's great to hear from you today. Kaise hain aap aur kya help chahiye thi? 📝",
+    "⚡ Yo! Great to see you in the DMs. Energy mast hai aaj, bataiye kya naya topic start karna hai? 💣",
+    "🤗 Hey there! Hope everything is going smoothly at your end. Inbox me warm welcome hai aapka! 🍃",
+    "📌 Hello! Main inbox active dekh raha hoon. Bataiye aaj kya specific work ya chat discuss karni hai? 📲",
+    "🕊️ Namaste! Aapka DM receive hua. Umeed hai aap safe aur healthy honge. Bataiye kya baat hai! ☕",
+    "🚀 Hey champion! Good to see your text coming through. Sab badhiya chal raha hai na? Let's catch up! 🏆",
+    "🎯 Greetings! Clear aur direct conversation ke liye tayyar hoon, bataiye aaj kya help lag sakti hai! 💡",
 ]
 
-DM_HOWAREYOU_TRIGGERS = ["how are you", "kaise ho", "kaisi ho", "kya haal", "kya hal", "sab theek"]
+DM_HOWAREYOU_TRIGGERS = [
+    "how are you",
+    "kaise ho",
+    "kaisi ho",
+    "kya haal",
+    "kya hal",
+    "sab theek",
+]
 DM_HOWAREYOU_REPLIES = [
-    "😊 Badhiya hoon aap",
-    "🙌 Sab set hai",
-    "😎 Mast hoon bhai",
+    # ── Upgraded Originals ──
+    "😊 Main bilkul badhiya aur healthy hoon! Aap bataiye, aapke wahan sab kaisa chal raha hai? 🍃",
+    "🙌 Poori tarah se set aur functional hoon! System aur mood dono high output par hain, aap sunao? ⚡",
+    "😎 Ekdum mast aur energetic vibe me hoon bhai! Life full smooth track par hai, aapka kya haal chaal? 🚀",
+    # ── 10+ New Detailed Entries ──
+    "🌟 Main ekdum perfect aur full energetic state me hoon! Poochne ke liye shukriya, aapka din kaisa jaa raha hai? ✨",
+    "💯 Absolutely great & 100% fine! Subah se sab tasks smoothly finish ho rahe hain. Aap bataiye apne bare me? 📊",
+    "🧘 Utmost peace aur calm mode me hoon. Life me sab balanced chal raha hai. Aap sunao sab theek na? 🕊️",
+    "☕ Chai, work aur positive vibes ka perfect combination chal raha hai! Aap bataiye aapka kya status hai? 🛋️",
+    "🏆 Top condition me hoon bhai! Progress tracking solid hai. Aap bataiye aaj ka din kaisa raha aapka? 📈",
+    "😄 Main bilkul awesome hoon! Positive mindset aur high productivity active hai. How are things with you? 🌸",
+    "🌈 Health, work aur mood teeno bilkul 10/10 hain! Umeed hai aap bhi mast honge. Kya updates hain? 🌟",
+    "🔥 Full operational capacity par hoon! Koi complaint nahi hai life se. Aap batao sab badhiya? 💣",
+    "🤝 Bilkul sahi aur balanced hoon my friend! Aapka inquiry padhke aur accha laga. Aapka kya scene hai? ✨",
+    "🎯 Dynamic aur focused mode me hoon! Sab kuch systematic chal raha hai. Aapka kya chal raha hai aaj kal? 📌",
 ]
 
-DM_THANKS_TRIGGERS = ["thanks", "thank you", "thnx", "tysm", "shukriya", "dhanyawad"]
+DM_THANKS_TRIGGERS = [
+    "thanks",
+    "thank you",
+    "thnx",
+    "tysm",
+    "shukriya",
+    "dhanyawad",
+]
 DM_THANKS_REPLIES = [
-    "🙏 Koi baat nahi",
-    "😊 Welcome welcome bhai",
-    "🤝 Anytime yaar",
-    "💯 Always here bhai",
+    # ── Upgraded Originals ──
+    "🙏 Absolutely zero problem bhai! Madad karke bohot khushi hui, kisi bhi waqt bejhijhak text kar sakte ho! ✨",
+    "😊 Most welcome brother! Aapka appreciation read karke accha laga. Hamesha aapki help ke liye ready hoon! 🌟",
+    "🤝 Anytime my friend! Mutual support hi toh sabse important hai. Jab bhi zaroorat ho, ping kar dena! 💯",
+    "💯 Always here for support bhai! Koi formality rakhne ki zaroorat nahi hai, chill raho ekdum! 🚀",
+    # ── 10+ New Detailed Entries ──
+    "🌟 Don't mention it! It was my pleasure assisting you today. Feel free to reach out anytime later! 🌸",
+    "🤗 It's totally fine! Aapke work me thodi madad ho gayi, yehi sabse acchi baat hai. Have a great day ahead! 🍃",
+    "📌 Always happy to help! Agar future me koi aur issue ya question ho, toh direct DM open hai aapka! 📲",
+    "⚡ Gratitude appreciated! Smooth execution ho gaya task ka, bas yehi matter karta hai. Cheers! 🥂",
+    "🕊️ Bilkul koi zaroorat nahi shukriya ki! Hum humesha available hain guidance aur help ke liye. Be relaxed! ✨",
+    "🎯 Glad I could be of help! Aapka problem solve ho gaya, mere liye yehi best result hai! 💯",
+    "🏆 Team effort & true friendship! Anytime support guaranteed hai aapke liye. Chill raho bhai! 🤝",
+    "💡 Mention na karo bhai! Helpful rehna hamari priority hai. Kuch bhi naya ho toh batana zaroor! 📝",
+    "☕ Pleasant experience assisting you! Welcome anytime for any kind of queries or assistance. ✨",
+    "🌟 Heartwarming thanks ke liye shukriya! Aapka response bohot kind aur polite tha. Stay blessed! 💖",
 ]
 
-DM_BYE_TRIGGERS = ["bye", "gtg", "good night", "goodnight", "chalta hoon", "milte hai", "milte hain", "tata"]
+DM_BYE_TRIGGERS = [
+    "bye",
+    "gtg",
+    "good night",
+    "goodnight",
+    "chalta hoon",
+    "milte hai",
+    "milte hain",
+    "tata",
+]
 DM_BYE_REPLIES = [
-    "👋 Bye take care",
-    "😴 Good night bhai",
-    "🙌 Baad me baat",
-    "✌️ See you soon",
+    # ── Upgraded Originals ──
+    "👋 Good bye aur apna poora dhyan rakhna! Phir milte hain ek naye conversation ke sath. Take care! ✨",
+    "😴 Peaceful Good Night! Raat ko acchi aur sukoon bhari neend aaye aapko, kal subah naye energy se milte hain! 🌙",
+    "🙌 Catch you later! Baad me fursat se milte aur baat karte hain, tab tak apna work continue rakho! 🚀",
+    "✌️ See you very soon! Chat me connect hokar bohot accha laga, take care of yourself! 🌸",
+    # ── 10+ New Detailed Entries ──
+    "🌙 Wishing you a peaceful and cozy sleep! Rest well so you wake up with high energy tomorrow! 😴✨",
+    "👋 Bye bye! Have a wonderful day/evening ahead. Next session me jald hi catch up karenge! 🤝",
+    "🚀 Chalo fine, talk to you later! Go crush your tasks and stay amazing as always! Take care! ⚡",
+    "🧘 Take rest and disconnect for a while! Life me breaks bhi zaroori hain. Catch up soon my friend! 🕊️",
+    "☕ Great conversing with you! Have a smooth time ahead, when you come back, drop a text anytime! 🛋️",
+    "📌 Signing off for now! Take care of your health and goals. We'll speak soon again! 🎯",
+    "🏁 Wrap up time! Great catching up with you in the DMs today. Until next time, stay blessed! 🌟",
+    "💫 Sweet dreams and deep sleep! Raat shaant aur comfortable rahe aapki. Goodnight! 🌃",
+    "⚡ Catch you on the flip side! Stay focused, stay happy, and keep shining! Bye for now! 🏆",
+    "📲 Bye! Don't hesitate to ping again whenever you need anything. Have a great time! ✨",
 ]
 
 DM_QUESTION_TRIGGERS = ["?", "kya", "kaise", "kyu", "kyun", "kab", "kahan", "kaun"]
 DM_QUESTION_REPLIES = [
-    "🤔 Accha sawal hai",
-    "📝 Jald reply karunga",
-    "🧐 Jald batata hoon",
+    # ── Upgraded Originals ──
+    "🤔 Bohot hi genuine aur thought-provoking sawal hai! Main is par deep detail ke sath jald reply bhejta hoon. 📝",
+    "📝 Question receive ho gaya hai! Main is topic par accurate details check karke clear answer text karta hoon. 📌",
+    "🧐 Deeply analysis worthy question! Thoda time do, bilkul precise aur correct information batata hoon. 📊",
+    # ── 10+ New Detailed Entries ──
+    "🎯 Excellent query! Is context par proper insights collect karke main step-by-step explain karta hoon. 💡",
+    "🔍 Thoughtful question asked! Let me review the exact details so I give you the most accurate solution. ⏱️",
+    "📋 Query register kar li gayi hai. Detailed explanation ke sath jald hi aapke DM me message aayega! ⚡",
+    "🧠 Ye kafi interesting point uthaya aapne! Thoda pause lijiye, main concise aur informative breakdown deta hoon. 🌐",
+    "💡 Solid technical / logical question! Iska proper context samajh ke accurate facts share karta hoon. 📊",
+    "💬 Aapka question clear hai. Main abhi details double check kar raha hoon taaki koi error na rahe. Standby! ⏳",
+    "📑 Valid point raised! Main step-by-step clarity ke sath iska breakdown bhej raha hoon, just a moment! 📌",
+    "⚙️ Processing your inquiry... Is specific issue/question ka best resolution tayar karke bhejta hoon! 🚀",
+    "🔬 Deep analysis running on your question! Give me a few minutes to formulate the best response. 🔎",
+    "🎓 Great learning/analytical question! Detailed documentation / response ke sath reply karunga! 📖",
 ]
 
 DM_LOVE_TRIGGERS = ["love you", "miss you", "pyaar", "ilu"]
 DM_LOVE_REPLIES = [
-    "🥰 Aww that's sweet",
-    "❤️ Accha laga sunke",
-    "🤗 Same here bhai",
+    # ── Upgraded Originals ──
+    "🥰 Aww, that's incredibly sweet and heart-warming! Aapki kindness aur love read karke bohot accha laga! ❤️",
+    "❤️ Pure respect aur genuine affection ke sath thanks! Aapka ye wholesome support mere liye bohot mean karta hai! ✨",
+    "🤗 Right back at you my friend! True bonding aur mutual respect hamesha maintain rahegi hamari! 💯",
+    # ── 10+ New Detailed Entries ──
+    "💖 Truly touched by your kind words! Such genuine warmth and positive vibes mean a lot to me! 🌸",
+    "🌟 Thank you so much for spreading such positive and loving energy! Wishing you double the love and light! ✨",
+    "🤗 Lots of love and respect back to you! Friends like you make the conversation super delightful! 🥂",
+    "👑 Truly golden heart content! Aapka affection aur positive words motivate karte hain. Stay blessed always! 🏆",
+    "🥰 Wholesome level maximum! Message read karke instantly face par smile aa gayi. Thanks a ton! 💖",
+    "🎁 Heartfelt gratitude for your immense love! Aise wholesome DMs din bana dete hain sach me! ☕",
+    "🕊️ Spread positivity and love everywhere! Aapka bond aur affection always prioritized aur respected rahega! ✨",
+    "💐 Thank you for being such a wonderful soul! Sending tons of warm regards and positive vibes back! 🌺",
+    "❤️ Unmatched positivity! Pure affection aur respect ke sath greeting accept ki jaati hai. Take care! 💫",
+    "🌟 Love and respect absolute 100%! Always here to support you in every step of the journey! 🤝",
 ]
 
 DM_ANGRY_TRIGGERS = ["gussa", "angry", "naraz", "irritat", "pareshan"]
 DM_ANGRY_REPLIES = [
-    "😟 Sab theek na",
-    "🫂 Calm ho jao",
-    "💬 Batao kya baat",
+    # ── Upgraded Originals ──
+    "😟 Sab theek hai na? Please tension mat lo, aaram se batayiye kya issue hua hai jisse pareshani hui? 🫂",
+    "🫂 Calm aura aur deep breath lo my friend. Gussa hone se situation clear nahi hoti, milkar solve karte hain! ✨",
+    "💬 Main poori tarah se tayar hoon sunne ke liye. Clear tarike se batao kya baat hui hai, issue resolve karenge! 📌",
+    # ── 10+ New Detailed Entries ──
+    "🕊️ Deep breath in, deep breath out. Frustration natural hai par aaram se baat karke problem solve kar lete hain! 🧘",
+    "⚠️ I understand aap upset ya annoyed ho. Thoda calm ho jao aur batayo main is situation ko kaise sahi karoon? 🤝",
+    "☕ Paani piyo aur aaram se baitho. Gusse me discussion nahi hota, batao kya solution chahiye aapko? 🛋️",
+    "📌 Main yahan sunne aur help karne ke liye hoon. Apni pareshani detail me batao, we will figure it out together! 💡",
+    "🛡️ Tension lene ki bilkul zaroorat nahi hai. Agar mujhse koi mistake hui hai toh kindly point out karo, correct karenge! 📝",
+    "🔍 Please peace of mind maintain rakho. Upset hone ke piche ka exact root cause kya hai, let me know! 🧠",
+    "😌 Anger burns energy! Isko positive output me convert karte hain. Openly batao kya bother kar raha hai aapko? 🌊",
+    "🤝 Zero judgment zone hai ye inbox! Jo bhi issue hai calmly express karo, solutions par focus karenge! 🎯",
+    "💬 Aapka point totally respected hai. Warm conversation ke sath matter ko easily sort out kar sakte hain! ✨",
+    "🩹 Calm environment create karte hain. Problem kitni bhi badi ho, structured dialogue se solve ho sakti hai! 🕊️",
 ]
+
 
 # Ordered so more specific/emotional intents are checked before generic ones
 DM_INTENT_BANKS = [
@@ -458,6 +642,45 @@ async def is_group_admin(event) -> bool:
         return False
 
 
+# ────────────────────────────────────────────────
+#   ANTI-BAN / HUMAN MODE (global, whole-account level — set from the
+#   factory bot's "My Clone Settings" menu, hot-reloaded by
+#   settings_watcher() below). Different from the per-group
+#   `.funquiet` hours above: this pauses EVERYTHING for the whole
+#   account, and adds a small randomized delay to every send so
+#   activity doesn't look like an instant, robotic 24/7 bot.
+# ────────────────────────────────────────────────
+HUMAN_MODE = False
+SLEEP_START = "00:00"
+SLEEP_END = "06:00"
+HUMAN_MIN_DELAY = 1.0
+HUMAN_MAX_DELAY = 3.5
+
+
+def is_sleeping() -> bool:
+    """True if Human Mode is on AND current local time is inside the
+    configured sleep window (handles windows that wrap past midnight)."""
+    if not HUMAN_MODE:
+        return False
+    try:
+        now = datetime.now().time()
+        start = dtime.fromisoformat(SLEEP_START)
+        end = dtime.fromisoformat(SLEEP_END)
+        if start <= end:
+            return start <= now <= end
+        return now >= start or now <= end
+    except Exception:
+        return False
+
+
+async def human_delay():
+    """Small randomized pause before sending a reply/reaction — makes
+    activity look human-paced instead of instant, reducing automation-
+    detection / ban risk. Only applied when Human Mode is on."""
+    if HUMAN_MODE:
+        await asyncio.sleep(random.uniform(HUMAN_MIN_DELAY, HUMAN_MAX_DELAY))
+
+
 def in_quiet_hours(chat: dict) -> bool:
     """Returns True if current local time falls inside the group's quiet window."""
     start_s, end_s = chat.get("quiet_start"), chat.get("quiet_end")
@@ -505,6 +728,7 @@ async def send_real_reaction(chat_id: int, msg_id: int, emoji: Optional[str] = N
     never block the text reply from having already been sent."""
     chosen = emoji or random.choice(REACTION_EMOJIS)
     try:
+        await human_delay()
         await bot(SendReactionRequest(
             peer=chat_id,
             msg_id=msg_id,
@@ -896,6 +1120,8 @@ async def auto_fun(event):
         return
     if not event.is_group:
         return
+    if is_sleeping():
+        return  # Human Mode — whole account paused right now
 
     text = event.raw_text or ""
     if text.startswith("."):
@@ -928,6 +1154,7 @@ async def auto_fun(event):
     last_reply_time[uid] = now
 
     try:
+        await human_delay()
         reply_text_out = trigger_hit if trigger_hit else pick_reply(uid, member.get("mood", "chill"))
         await event.reply(reply_text_out)
         # NOTE: reaction is handled separately by auto_react_group below,
@@ -960,6 +1187,8 @@ async def auto_react_group(event):
         return
     if not event.is_group:
         return
+    if is_sleeping():
+        return  # Human Mode — whole account paused right now
 
     text = event.raw_text or ""
     if text.startswith("."):
@@ -996,6 +1225,8 @@ async def auto_dm(event):
         return
     if not event.is_private:
         return
+    if is_sleeping():
+        return  # Human Mode — whole account paused right now
 
     text = event.raw_text or ""
     if text.startswith("."):
@@ -1028,7 +1259,8 @@ async def auto_dm(event):
 #   every 20s and applies the values live — no restart needed.
 # ────────────────────────────────────────────────
 async def settings_watcher():
-    global DEFAULT_RATE_LIMIT_SECONDS
+    global DEFAULT_RATE_LIMIT_SECONDS, HUMAN_MODE, SLEEP_START, SLEEP_END
+    was_sleeping = False
     while True:
         try:
             if os.path.isfile(SETTINGS_FILE):
@@ -1041,6 +1273,19 @@ async def settings_watcher():
                     for chat in data.values():
                         chat["react_enabled"] = False
                     save_data()
+                if "human_mode" in s:
+                    HUMAN_MODE = bool(s["human_mode"])
+                if "sleep_start" in s:
+                    SLEEP_START = s["sleep_start"]
+                if "sleep_end" in s:
+                    SLEEP_END = s["sleep_end"]
+
+                now_sleeping = is_sleeping()
+                if now_sleeping and not was_sleeping:
+                    log.info(f"🛡️ Human Mode: entering sleep window ({SLEEP_START}–{SLEEP_END}) — pausing all activity.")
+                elif was_sleeping and not now_sleeping:
+                    log.info("🛡️ Human Mode: sleep window over — resuming activity.")
+                was_sleeping = now_sleeping
         except Exception as e:
             log.warning(f"settings_watcher error: {e}")
         await asyncio.sleep(20)
