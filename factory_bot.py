@@ -115,6 +115,13 @@ factory = TelegramClient("factory_bot_session", FACTORY_API_ID, FACTORY_API_HASH
 
 running_procs: Dict[str, subprocess.Popen] = {}   # owner_id(str) -> process handle
 
+# Chat IDs that currently have an open wizard conversation. Telethon only
+# allows ONE conversation() per chat at a time — without this guard, a
+# double-tap on "Make My Own Clone" (very easy to do on mobile) opens a
+# second conversation() while the first is still awaiting input, which
+# raises "Cannot open exclusive conversation..." as an unhandled error.
+ACTIVE_WIZARDS: set = set()
+
 # ── MongoDB (feature 9) — optional. If MONGODB_URI is unset, mongo_clones
 # stays None and every mongo_* helper below becomes a safe no-op, so the
 # bot still works purely off local files (e.g. a real VPS). ──
@@ -211,9 +218,8 @@ MAIN_MENU = [
     [Button.inline("📋 My Clone Status", b"my_status")],
     [Button.inline("⚙️ My Clone Settings", b"my_settings")],
     [Button.inline("🗑️ Delete My Clone", b"delete_clone")],
-    [Button.url("📖 How to work", "https://teamvb-userbot.netlify.app/")],
+    [Button.url("How to setup", "https://teamvb-userbot.netlify.app/")],
 ]
-
 
 BACK_BUTTON = [[Button.inline("⬅️ Back", b"back_main")]]
 
@@ -387,15 +393,10 @@ async def start(event):
 
 @factory.on(events.CallbackQuery(data=b"back_main"))
 async def back_main(event):
-        await safe_edit(event, 
-        "👋 **Fun Bot — Clone Factory** 🏭\n\n"
-        "⚡️ _Aapka apna personal userbot manager!_\n"
-        "Neeche diye gaye buttons se apna option chuno 👇\n\n"
-        "━━━━━━━━━━━━━━━━━━━━\n"
-        "✨ Made with ❤️ by **TEAMVB**",
+    await safe_edit(event, 
+        "👋 **Fun Bot — Clone Factory**\n\nNeeche se option chuno:\n\nMade with ❤️ TEAMVB",
         buttons=MAIN_MENU,
     )
-
 
 
 # ────────────────────────────────────────────────
@@ -407,11 +408,19 @@ async def make_clone(event):
     if config_path(owner_id).is_file():
         await event.answer("Aapka clone already exist karta hai — Status/Settings se manage karo.", alert=True)
         return
+    if event.chat_id in ACTIVE_WIZARDS:
+        await event.answer(
+            "⏳ Ek wizard already chal raha hai isi chat me — upar wale message ka jawab do "
+            "(API_ID/HASH/OWNER_ID), ya 5 minute wait karke dobara try karo.",
+            alert=True,
+        )
+        return
     await event.answer()
     await run_clone_wizard(owner_id, event.chat_id)
 
 
 async def run_clone_wizard(owner_id: int, chat_id: int):
+    ACTIVE_WIZARDS.add(chat_id)
     try:
         async with factory.conversation(chat_id, timeout=300) as conv:
             await conv.send_message(
@@ -497,8 +506,13 @@ async def run_clone_wizard(owner_id: int, chat_id: int):
     except asyncio.TimeoutError:
         await factory.send_message(chat_id, "⏳ Time out ho gaya. **Make My Own Clone** se dobara try karo.", buttons=MAIN_MENU)
     except Exception as e:
-        log.error(f"Wizard error for {owner_id}: {e}")
-        await factory.send_message(chat_id, f"❌ Kuch galat ho gaya: {e}", buttons=MAIN_MENU)
+        if "exclusive conversation" in str(e):
+            log.warning(f"Wizard double-open blocked for {owner_id} (harmless, guard should prevent this now).")
+        else:
+            log.error(f"Wizard error for {owner_id}: {e}")
+            await factory.send_message(chat_id, f"❌ Kuch galat ho gaya: {e}", buttons=MAIN_MENU)
+    finally:
+        ACTIVE_WIZARDS.discard(chat_id)
 
 
 # ────────────────────────────────────────────────
