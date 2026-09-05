@@ -1,4 +1,4 @@
-```python
+
 # ────────────────────────────────────────────────
 #   OPT-IN GROUP FUN BOT v2.4 (Telethon Userbot)
 #   Text replies remain opt-in/consent-based. Reactions
@@ -1095,4 +1095,3 @@ if __name__ == "__main__":
     else:
         asyncio.run(main())
 
-```
