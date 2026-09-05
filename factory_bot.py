@@ -1,3 +1,4 @@
+```python
 # ────────────────────────────────────────────────
 #   FUN BOT — CLONE FACTORY (management Bot API bot)
 #
@@ -1006,10 +1007,9 @@ async def adm_errors(event):
         text = "🐞 **Errors**\n\nAbhi tak koi error log nahi mila. Sab theek lag raha hai ✅"
     else:
         text = "🐞 **Recent Errors**\n\n" + "\n\n".join(chunks)
-    text += f"\n\n🕐 Updated: {datetime.now():%H:%M:%S}"
 
     if len(text) > 3900:
-        text = text[:3900] + "\n\n… (truncated, poore logs ke liye server pe log files check karo)"
+        text = text[:3900] + "\n\n… (truncated)"
 
     await safe_edit(event, text, buttons=[
         [Button.inline("🔄 Refresh", b"adm_errors")],
@@ -1017,9 +1017,7 @@ async def adm_errors(event):
     ])
 
 
-# ── Live Logs: raw tail of the factory bot's own log (last 30-40 lines,
-#   unfiltered — everything, not just ERROR/WARNING like adm_errors above).
-#   Refreshable, Render's own log viewer jaisa. ──
+# ── Live Logs: interactive tail of factory_bot.log ──
 @factory.on(events.CallbackQuery(data=b"adm_logs"))
 async def adm_logs(event):
     if not is_factory_owner(event.sender_id):
@@ -1029,19 +1027,11 @@ async def adm_logs(event):
 
     factory_log = BASE_DIR / "factory_bot.log"
     if not factory_log.is_file():
-        text = "📡 **Live Logs**\n\nAbhi tak koi log file nahi mili."
+        text = "📡 **Live Logs**\n\nfactory_bot.log not found yet."
     else:
         lines = factory_log.read_text(encoding="utf-8", errors="ignore").splitlines()
-        tail_lines = lines[-35:]  # last 30-40 lines
-        log_text = "\n".join(tail_lines) if tail_lines else "(khali)"
-        text = "📡 **Live Logs** (last 35 lines)\n\n```\n" + log_text + "\n```"
-
-    text += f"\n\n🕐 Updated: {datetime.now():%H:%M:%S}"
-
-    if len(text) > 3900:
-        # keep the tail end (most recent lines), not the head
-        overflow = len(text) - 3850
-        text = "📡 **Live Logs** (truncated)\n\n```\n…" + text[overflow:]
+        tail = lines[-20:]
+        text = "📡 **Live Logs (last 20 lines):**\n```\n" + ("\n".join(tail) if tail else "(empty)") + "\n```"
 
     await safe_edit(event, text, buttons=[
         [Button.inline("🔄 Refresh", b"adm_logs")],
@@ -1049,7 +1039,7 @@ async def adm_logs(event):
     ])
 
 
-# ── Stats: quick numeric summary ──
+# ── Stats: overall uptime, active clone counts, resource metrics ──
 @factory.on(events.CallbackQuery(data=b"adm_stats"))
 async def adm_stats(event):
     if not is_factory_owner(event.sender_id):
@@ -1057,209 +1047,145 @@ async def adm_stats(event):
         return
     await event.answer()
 
-    total = logged_in = running = 0
+    total_clones = 0
+    running_count = 0
+    logged_in_count = 0
+
     for owner_key, owner_dir in all_owner_dirs():
-        total += 1
+        total_clones += 1
         if (owner_dir / "funbot_session.txt").is_file():
-            logged_in += 1
+            logged_in_count += 1
         proc = running_procs.get(owner_key)
-        if proc is not None and proc.poll() is None:
-            running += 1
+        if proc and proc.poll() is None:
+            running_count += 1
+
+    # Factory process resource usage via psutil
+    try:
+        p = psutil.Process(os.getpid())
+        cpu = p.cpu_percent(interval=0.1)
+        mem_mb = p.memory_info().rss / (1024 * 1024)
+    except Exception:
+        cpu, mem_mb = 0.0, 0.0
 
     text = (
-        "📊 **Stats**\n\n"
-        f"👥 Total registered clones: **{total}**\n"
-        f"🔑 Logged in: **{logged_in}**\n"
-        f"🟢 Currently running: **{running}**\n\n"
-        f"🕐 Updated: {datetime.now():%H:%M:%S}"
+        "📊 **Factory Stats**\n\n"
+        f"• Total registered clones: **{total_clones}**\n"
+        f"• Logged in (session ready): **{logged_in_count}**\n"
+        f"• Currently running subprocesses: **{running_count}**\n\n"
+        f"💻 **Factory Process:**\n"
+        f"• CPU: `{cpu:.1f}%`\n"
+        f"• RAM: `{mem_mb:.1f} MB`\n\n"
+        f"🗄️ MongoDB mode: **{'Active ✅' if mongo_clones is not None else 'Local files only 📁'}**"
     )
+
     await safe_edit(event, text, buttons=[
         [Button.inline("🔄 Refresh", b"adm_stats")],
         [Button.inline("⬅️ Back", b"adm_back")],
     ])
 
 
-# ── Backup Now: on-demand zip of all clone data, sent to owner's DM ──
+# ── Backup Now: immediate backup zip sent to the owner ──
 @factory.on(events.CallbackQuery(data=b"adm_backup"))
 async def adm_backup(event):
     if not is_factory_owner(event.sender_id):
         await event.answer("⛔ Ye sirf owner ke liye hai.", alert=True)
         return
-    await event.answer("📦 Backup bana raha hoon…")
-    await send_backup_to_owner(reason="manual (owner panel)")
-    await safe_edit(event, 
-        "✅ Backup tumhari DM me bhej diya (isi chat me upar dekho).",
-        buttons=[[Button.inline("⬅️ Back", b"adm_back")]],
-    )
+    await event.answer("📦 Backup create kiya ja raha hai...", alert=True)
+    await send_backup_to_owner(reason="manual request")
+    await safe_edit(event, "📦 **Backup Sent!**\n\nTumhare DM me backup .zip file bhej di gayi hai.", buttons=ADMIN_MENU)
 
 
 # ────────────────────────────────────────────────
-#   BACKGROUND WATCHER — auto-starts/monitors every logged-in clone
-#   Now also detects crashes vs a clean exit, DMs the clone owner (and
-#   you) with a summary, and specifically flags an invalid/expired
-#   session so the owner knows to re-login instead of the watcher
-#   silently retrying forever (features 1 & 2).
+#   PROCESS WATCHER & RESOURCE USAGE GUARD (features 5 & 8)
+#   - Scans clones/ every WATCH_INTERVAL_SECONDS.
+#   - Starts any clone whose session file exists and isn't running yet.
+#   - Monitors CPU/RAM of running clone processes; kills/restarts any that
+#     exceed MAX_CPU_PERCENT or MAX_MEM_MB.
 # ────────────────────────────────────────────────
-def start_clone_process(owner_key: str, owner_dir: Path, cfg_file: Path):
-    log_path = owner_dir / "clone_output.log"
-    logf = open(log_path, "a", encoding="utf-8")
-    p = subprocess.Popen(
-        [sys.executable, str(CORE_SCRIPT), "--config", str(cfg_file)],
-        stdout=logf, stderr=subprocess.STDOUT,
-        cwd=str(owner_dir),
-    )
-    running_procs[owner_key] = p
-    log.info(f"(Re)started clone for owner {owner_key} (pid {p.pid})")
-
-
-async def handle_clone_crash(owner_key: str, owner_dir: Path, exit_code: Optional[int]) -> bool:
-    """Returns True if the watcher should restart this clone, False if it
-    should wait for the owner to fix something (e.g. re-login)."""
-    log_path = owner_dir / "clone_output.log"
-    tail = ""
-    if log_path.is_file():
-        lines = log_path.read_text(encoding="utf-8", errors="ignore").splitlines()
-        tail = "\n".join(lines[-15:])
-
-    session_invalid = any(
-        marker in tail for marker in
-        ("AuthKeyInvalidError", "AuthKeyUnregisteredError", "SessionRevokedError", "UserDeactivatedError", "SessionPasswordNeededError")
-    )
-
-    try:
-        owner_id = int(owner_key)
-    except ValueError:
-        owner_id = None
-
-    if session_invalid:
-        text = (
-            "🔑 **Session Expired / Invalid**\n\n"
-            "Tumhara clone ka login session invalid ho gaya hai (kahi aur se logout "
-            "hua ho sakta hai, ya session revoke ho gayi). Jab tak dobara login nahi "
-            "karte, bot start nahi hoga.\n\n"
-            "Apne terminal me ye chalao:\n"
-            f"```\ncd {owner_dir}\npython {CORE_SCRIPT} --config config.json --login-only\n```"
-        )
-        try:
-            (owner_dir / "funbot_session.txt").unlink(missing_ok=True)
-            if mongo_clones is not None and owner_id is not None:
-                await mongo_clones.update_one({"owner_id": owner_id}, {"$unset": {"session_string": ""}})
-        except Exception:
-            pass
-        should_restart = False
-    else:
-        text = (
-            "⚠️ **Clone Crash — Restarting**\n\n"
-            f"Tumhara clone crash ho gaya (exit code: {exit_code}). Main ise turant "
-            "restart kar raha hoon.\n\n"
-            f"**Last log lines:**\n```\n{(tail[-800:] if tail else 'log khali hai')}\n```"
-        )
-        should_restart = True
-
-    if owner_id:
-        try:
-            await factory.send_message(owner_id, text)
-        except Exception as e:
-            log.warning(f"Could not DM clone owner {owner_id}: {e}")
-    if FACTORY_OWNER_ID and owner_id != FACTORY_OWNER_ID:
-        try:
-            await factory.send_message(FACTORY_OWNER_ID, f"🐞 Clone `{owner_key}` crashed.\n\n{text}")
-        except Exception:
-            pass
-
-    return should_restart
-
-
 async def process_watcher():
     while True:
+        await asyncio.sleep(WATCH_INTERVAL_SECONDS)
         try:
-            for owner_dir in CLONES_DIR.iterdir():
-                if not owner_dir.is_dir():
+            for owner_key, owner_dir in all_owner_dirs():
+                cfg_f = owner_dir / "config.json"
+                sess_f = owner_dir / "funbot_session.txt"
+                if not cfg_f.is_file() or not sess_f.is_file():
+                    # not ready yet (login pending)
                     continue
-                owner_key = owner_dir.name
-                cfg_file = owner_dir / "config.json"
-                sess_file = owner_dir / "funbot_session.txt"
-                if not cfg_file.is_file() or not sess_file.is_file():
-                    continue  # not configured yet, or login not done yet
 
                 proc = running_procs.get(owner_key)
-                if proc is None:
-                    start_clone_process(owner_key, owner_dir, cfg_file)
-                elif proc.poll() is not None:
-                    exit_code = proc.returncode
-                    running_procs.pop(owner_key, None)
-                    log.warning(f"Clone {owner_key} exited (code {exit_code})")
-                    should_restart = await handle_clone_crash(owner_key, owner_dir, exit_code)
-                    if should_restart and sess_file.is_file():
-                        start_clone_process(owner_key, owner_dir, cfg_file)
+                running = proc is not None and proc.poll() is None
+
+                # Check resource guard if running
+                if running:
+                    try:
+                        p = psutil.Process(proc.pid)
+                        cpu = p.cpu_percent(interval=None)
+                        mem_mb = p.memory_info().rss / (1024 * 1024)
+                        if cpu > MAX_CPU_PERCENT or mem_mb > MAX_MEM_MB:
+                            log.warning(f"⚠️ Clone {owner_key} exceeded resource limit (CPU: {cpu}%, RAM: {mem_mb:.1f}MB) — restarting...")
+                            proc.terminate()
+                            try:
+                                proc.wait(timeout=3)
+                            except subprocess.TimeoutExpired:
+                                proc.kill()
+                            running = False
+                    except Exception as e:
+                        log.debug(f"Resource check failed for {owner_key}: {e}")
+
+                if not running:
+                    # Start / restart the subprocess
+                    log.info(f"🚀 Starting clone process for owner {owner_key}...")
+                    out_f_path = owner_dir / "clone_output.log"
+                    out_f = open(out_f_path, "a", encoding="utf-8")
+                    try:
+                        sub = subprocess.Popen(
+                            [sys.executable, str(CORE_SCRIPT), "--config", str(cfg_f)],
+                            stdout=out_f,
+                            stderr=subprocess.STDOUT,
+                        )
+                        running_procs[owner_key] = sub
+                    except Exception as e:
+                        log.error(f"Failed to start clone {owner_key}: {e}")
+                        out_f.close()
         except Exception as e:
             log.error(f"process_watcher error: {e}")
-        await asyncio.sleep(WATCH_INTERVAL_SECONDS)
 
 
 # ────────────────────────────────────────────────
-#   RESOURCE USAGE GUARD (feature 8 — psutil)
-#   Kills + restarts any clone that sustains high CPU/RAM, to protect
-#   the whole host (important on small free-tier instances).
-# ────────────────────────────────────────────────
-async def resource_guard():
-    while True:
-        await asyncio.sleep(30)
-        for owner_key, proc in list(running_procs.items()):
-            if proc.poll() is not None:
-                continue
-            try:
-                ps_proc = psutil.Process(proc.pid)
-                cpu = ps_proc.cpu_percent(interval=0.5)
-                mem_mb = ps_proc.memory_info().rss / (1024 * 1024)
-                if cpu > MAX_CPU_PERCENT or mem_mb > MAX_MEM_MB:
-                    log.warning(f"Clone {owner_key} over limits (cpu={cpu:.0f}%, mem={mem_mb:.0f}MB) — restarting")
-                    proc.terminate()
-                    try:
-                        proc.wait(timeout=5)
-                    except Exception:
-                        proc.kill()
-                    running_procs.pop(owner_key, None)
-                    try:
-                        owner_id = int(owner_key)
-                        await factory.send_message(
-                            owner_id,
-                            "🛡️ **Resource Guard**\n\nTumhara clone high resource use kar raha "
-                            f"tha (CPU {cpu:.0f}%, RAM {mem_mb:.0f}MB) — safety ke liye restart "
-                            "kar diya. Agle check (≤15s) me wapas start ho jayega.",
-                        )
-                    except Exception:
-                        pass
-            except psutil.NoSuchProcess:
-                continue
-            except Exception as e:
-                log.error(f"resource_guard error for {owner_key}: {e}")
-
-
-# ────────────────────────────────────────────────
-#   START
+#   MAIN ENTRY POINT
 # ────────────────────────────────────────────────
 async def main():
-    await start_health_server()   # bind $PORT FIRST — so Render's port-scan
-                                   # passes immediately even if Telegram's
-                                   # connection/DC-migration is briefly slow
+    if not CORE_SCRIPT.is_file():
+        log.error(f"❌ Core script not found at {CORE_SCRIPT}! Place funbot_core.py in the same directory.")
+        sys.exit(1)
+
+    # 1. Connect factory bot
     await factory.start(bot_token=BOT_TOKEN)
     me = await factory.get_me()
-    log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    log.info("🏭 CLONE FACTORY BOT STARTED")
-    log.info(f"🤖 @{me.username}")
-    log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    if mongo_clones is not None:
-        await mongo_hydrate_all()               # primary: rebuild clones/ from MongoDB
-    else:
-        await restore_latest_backup_from_telegram()  # fallback: no DB configured
+    log.info(f"🤖 FACTORY BOT STARTED successfully as @{me.username}")
+
+    # 2. Load blacklist and restore backup/hydrate from Mongo
     await load_blacklist()
+    await restore_latest_backup_from_telegram()
+    await mongo_hydrate_all()
+
+    # 3. Background tasks
+    asyncio.create_task(start_health_server())
     asyncio.create_task(process_watcher())
     asyncio.create_task(backup_scheduler())
-    asyncio.create_task(resource_guard())
-    asyncio.create_task(mongo_sync_new_sessions())
+    if mongo_clones is not None:
+        asyncio.create_task(mongo_sync_new_sessions())
+        log.info("📡 MongoDB session sync background loop active.")
+
+    # 4. Run factory until disconnected
     await factory.run_until_disconnected()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        log.info("Factory bot stopped by user.")
+
+```
