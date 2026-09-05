@@ -1,4 +1,4 @@
-```python
+
 # ────────────────────────────────────────────────
 #   FUN BOT — CLONE FACTORY (management Bot API bot)
 #
