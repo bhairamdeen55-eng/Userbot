@@ -1,3 +1,4 @@
+```python
 # ────────────────────────────────────────────────
 #   OPT-IN GROUP FUN BOT v2.4 (Telethon Userbot)
 #   Text replies remain opt-in/consent-based. Reactions
@@ -193,7 +194,7 @@ CHILL_REPLIES = [
 ]
 
 ROAST_REPLIES = [
-    # ── Upgraded Original Roast Messages ──
+    # ── Upgraded Original Roast Messages (For Normal Group Roasts) ──
     "😏 Wah kya baat hai bhai! Aisa logic toh dhoondne par bhi Google par nahi milega! 🏅",
     "🙃 Ye bhi koi baat hui bhala? Aisa lag raha hai bina brain reboot kiye type kar diya! 🧠",
     "😬 Thoda aur try karo bhai, shayad agli baar response me thoda sense aur logic aa jaaye! 🎯",
@@ -222,6 +223,67 @@ ROAST_REPLIES = [
     "🏅 Gold medal in jumping to wildest assumptions! Olympic panel impressed ho gaya! 🏃",
     "🎬 Mic drop moment tha, par unfortunately mic ulta pakda hua tha aapne! 🎤"
 ]
+
+# 🔥 55+ NEW SPAM ROAST REPLIES (Specifically for .roast on loop) 🔥
+SPAM_ROAST_REPLIES = [
+    "Aur bhai, kya haal hai? Chup kyu ho gaya? 😂",
+    "Bolna bhai, awaaz nahi aa rahi teri! 🎤",
+    "Lagta hai darr gaya... 🏃‍♂️",
+    "Bhai thoda toh bol le, kitna sharmaega? 🙈",
+    "Keyboard kharab ho gaya kya tera? ⌨️",
+    "Bade jaldi thak gaye yaar tum... 😴",
+    "Hello? Koi hai? Ya main akele hi bol raha hu? 🗣️",
+    "Dekh bhai, jab tak main off nahi karunga, ye chalta rahega! 🔥",
+    "Type karne me ungliyan dard kar rahi hain kya? 🤌",
+    "So gaya kya bhai itni jaldi? 🥱",
+    "Net khatam ho gaya lagta hai iska! 📶",
+    "Mummy ne phone chheen liya kya? 📱",
+    "Bhai ki bolti band ho chuki hai! 🤐",
+    "Reply karne ka tax nahi lagta, bol le thoda! 💸",
+    "Arre bhai, rona nahi hai, text karna hai! 😭",
+    "Lagta hai Google par reply search kar raha hai. 🔍",
+    "Bhai ka system hang ho gaya hai doston! 💻",
+    "Itni shaanti toh library me bhi nahi hoti. 📚",
+    "Ab kya kabootar se chitthi bhejega? 🕊️",
+    "Wifi ka bill kaun bharega tera? 🧾",
+    "Aisa sannaata kyu hai bhai? 🤫",
+    "Zinda ho ya nikal liye? 👻",
+    "Are kuch toh bol mere bhai, suspense kyu bana raha hai? 🍿",
+    "Bhai teri typing speed dekh ke snail ko bhi sharam aa jaye. 🐌",
+    "Ghabra mat, main kuch nahi karunga... sirf spam karunga! 😈",
+    "Akele akele chup baithna achhi baat nahi hai. 🙅‍♂️",
+    "Chalo 10 minute ka maun vrat rakha hai bhai ne. 🧘‍♂️",
+    "Are are, itna gussa ki reply hi nahi karoge? 😠",
+    "Batao batao, main sun raha hu. 👂",
+    "Kya soch raha hai itna? Einstein banega kya? 🧠",
+    "Bhai tera sabun slow hai kya? 🧼",
+    "Oye hello! Yahan dhyaan do thoda. 👋",
+    "Lagta hai dost ko meri baatein pasand nahi aa rahi. 💔",
+    "Abhi bhi time hai, surrender kar de! 🏳️",
+    "Isse fast toh kachhua chalta hai. 🐢",
+    "Lagta hai iska internet explorer 2G pe chal raha hai. 🌐",
+    "O bhai saahab! Kahan kho gaye? 🔭",
+    "Teri khamoshi sab kuch bayaan kar rahi hai. 🎭",
+    "Koi ambulance bulao, iske keyboard ki saansein atak gayi hain! 🚑",
+    "Beta tumse na ho paayega. 😂",
+    "Lagta hai sadme me chala gaya bechara. 😵‍💫",
+    "Bhai tu text kar raha hai ya khet jot raha hai? Itna time? 🚜",
+    "Teri himmat kaise hui mujhe ignore karne ki? 😤",
+    "Jawab do janta jawab chahti hai! 🎤",
+    "Main rukunga nahi, chahe tu ro de aaj! 🎢",
+    "Keyboard pe so gaya kya apna sar rakh ke? 💤",
+    "Bhai agar zinda hai toh haath utha de bas. 🙋‍♂️",
+    "Tu bas dekhta reh ab meri speed! 🚀",
+    "Kahan se late ho itna patience chup rehne ka? 🗿",
+    "Chalo bhai, aaj ka tera kota khatam. 🔚",
+    "Thoda paani-waani pee le, thak gaya hoga chup reh ke. 🚰",
+    "Main yahan bore ho raha hu, kuch toh entertain kar! 🎪",
+    "Error 404: Jawab not found! ⚠️",
+    "Lagta hai battery 1% pe aa gayi hai iski. 🔋",
+    "Arre naraz ho kya dost? Aise ignore toh na karo! 🥺",
+    "Jaldi bol subah Panvel nikalna hai! 🏃‍♂️💨"
+]
+
 
 NEUTRAL_REPLIES = [
     # ── Upgraded Original Neutral Messages ──
@@ -275,7 +337,7 @@ DM_REPLIES = [
     "🧘 Quiet mode on hai abhi. Jald hi active hokar aap se detailed discussion karta hoon! 🕊️",
     # ── 10+ New Detailed & Professional Away Messages ──
     "📊 Currently high-priority tasks handle kar raha hoon. Important updates ke sath jald hi inbox me milta hoon! 🎯",
-    "📌 Aapka DM inbox me safe hai! Schedule break milte hi aapko prioritized response bhej dunga. 📋",
+    "📌 Aapka DM inbox me safe hai! Schedule break milte milte hi aapko prioritized response bhej dunga. 📋",
     "💻 Active execution mode ongoing! Task wrap-up karte hi aapko detailed answer ke sath DM karta hoon! ⚡",
     "⚙️ Auto-responder status: Main abhi system se away hoon, but don't worry, aapka text note kar liya gaya hai! 📥",
     "🚀 High efficiency mode me hoon abhi! Jald hi screen par wapas aakar aapse properly connect karta hoon! 🌐",
@@ -290,171 +352,61 @@ DM_REPLIES = [
 
 # ── Keyword → Context-Aware DM Reply Banks (Detailed & Professional) ──
 DM_GREETING_TRIGGERS = [
-    "hi",
-    "hii",
-    "hiii",
-    "hello",
-    "hey",
-    "namaste",
-    "namaskar",
-    "yo",
+    "hi", "hii", "hiii", "hello", "hey", "namaste", "namaskar", "yo",
 ]
 DM_GREETING_REPLIES = [
-    # ── Upgraded Originals ──
     "👋 Hey! Warm welcome to the chat. Aashayein hain sab accha chal raha hoga, bataiye kaise madad kar sakta hoon? ✨",
     "😊 Hello! Bohot accha laga aapse connect karke. Kaise hain aap aur aaj ka din kaisa chal raha hai? 🌟",
     "🙌 Hii there! Sab kuch perfectly fine hai yahan. Aap bataiye, aaj inbox me aane ka kya main reason hai? 💬",
     "😄 Hey! Super glad to see your message today. Bataiye kya new updates hain aur kaise chal raha hai sab? 🚀",
-    # ── 10+ New Detailed Entries ──
-    "👋 Hello & Welcome! Hope aapka din bohot productive aur accha guzar raha hoga. Kya query hai aapki? 🌸",
-    "🌟 Hey! Happy to connect with you. Sab set aur smooth chal raha hai, aap sunao kya scene hai aaj? 🤝",
-    "😄 Greetings! Main ekdum ready hoon assist karne ke liye, bataiye aaj kis topic par discussion karna hai? 🎯",
-    "✨ Namaskar / Hello! It's great to hear from you today. Kaise hain aap aur kya help chahiye thi? 📝",
-    "⚡ Yo! Great to see you in the DMs. Energy mast hai aaj, bataiye kya naya topic start karna hai? 💣",
-    "🤗 Hey there! Hope everything is going smoothly at your end. Inbox me warm welcome hai aapka! 🍃",
-    "📌 Hello! Main inbox active dekh raha hoon. Bataiye aaj kya specific work ya chat discuss karni hai? 📲",
-    "🕊️ Namaste! Aapka DM receive hua. Umeed hai aap safe aur healthy honge. Bataiye kya baat hai! ☕",
-    "🚀 Hey champion! Good to see your text coming through. Sab badhiya chal raha hai na? Let's catch up! 🏆",
-    "🎯 Greetings! Clear aur direct conversation ke liye tayyar hoon, bataiye aaj kya help lag sakti hai! 💡",
 ]
 
 DM_HOWAREYOU_TRIGGERS = [
-    "how are you",
-    "kaise ho",
-    "kaisi ho",
-    "kya haal",
-    "kya hal",
-    "sab theek",
+    "how are you", "kaise ho", "kaisi ho", "kya haal", "kya hal", "sab theek",
 ]
 DM_HOWAREYOU_REPLIES = [
-    # ── Upgraded Originals ──
     "😊 Main bilkul badhiya aur healthy hoon! Aap bataiye, aapke wahan sab kaisa chal raha hai? 🍃",
     "🙌 Poori tarah se set aur functional hoon! System aur mood dono high output par hain, aap sunao? ⚡",
     "😎 Ekdum mast aur energetic vibe me hoon bhai! Life full smooth track par hai, aapka kya haal chaal? 🚀",
-    # ── 10+ New Detailed Entries ──
-    "🌟 Main ekdum perfect aur full energetic state me hoon! Poochne ke liye shukriya, aapka din kaisa jaa raha hai? ✨",
-    "💯 Absolutely great & 100% fine! Subah se sab tasks smoothly finish ho rahe hain. Aap bataiye apne bare me? 📊",
-    "🧘 Utmost peace aur calm mode me hoon. Life me sab balanced chal raha hai. Aap sunao sab theek na? 🕊️",
-    "☕ Chai, work aur positive vibes ka perfect combination chal raha hai! Aap bataiye aapka kya status hai? 🛋️",
-    "🏆 Top condition me hoon bhai! Progress tracking solid hai. Aap bataiye aaj ka din kaisa raha aapka? 📈",
-    "😄 Main bilkul awesome hoon! Positive mindset aur high productivity active hai. How are things with you? 🌸",
-    "🌈 Health, work aur mood teeno bilkul 10/10 hain! Umeed hai aap bhi mast honge. Kya updates hain? 🌟",
-    "🔥 Full operational capacity par hoon! Koi complaint nahi hai life se. Aap batao sab badhiya? 💣",
-    "🤝 Bilkul sahi aur balanced hoon my friend! Aapka inquiry padhke aur accha laga. Aapka kya scene hai? ✨",
-    "🎯 Dynamic aur focused mode me hoon! Sab kuch systematic chal raha hai. Aapka kya chal raha hai aaj kal? 📌",
 ]
 
 DM_THANKS_TRIGGERS = [
-    "thanks",
-    "thank you",
-    "thnx",
-    "tysm",
-    "shukriya",
-    "dhanyawad",
+    "thanks", "thank you", "thnx", "tysm", "shukriya", "dhanyawad",
 ]
 DM_THANKS_REPLIES = [
-    # ── Upgraded Originals ──
     "🙏 Absolutely zero problem bhai! Madad karke bohot khushi hui, kisi bhi waqt bejhijhak text kar sakte ho! ✨",
     "😊 Most welcome brother! Aapka appreciation read karke accha laga. Hamesha aapki help ke liye ready hoon! 🌟",
     "🤝 Anytime my friend! Mutual support hi toh sabse important hai. Jab bhi zaroorat ho, ping kar dena! 💯",
-    "💯 Always here for support bhai! Koi formality rakhne ki zaroorat nahi hai, chill raho ekdum! 🚀",
-    # ── 10+ New Detailed Entries ──
-    "🌟 Don't mention it! It was my pleasure assisting you today. Feel free to reach out anytime later! 🌸",
-    "🤗 It's totally fine! Aapke work me thodi madad ho gayi, yehi sabse acchi baat hai. Have a great day ahead! 🍃",
-    "📌 Always happy to help! Agar future me koi aur issue ya question ho, toh direct DM open hai aapka! 📲",
-    "⚡ Gratitude appreciated! Smooth execution ho gaya task ka, bas yehi matter karta hai. Cheers! 🥂",
-    "🕊️ Bilkul koi zaroorat nahi shukriya ki! Hum humesha available hain guidance aur help ke liye. Be relaxed! ✨",
-    "🎯 Glad I could be of help! Aapka problem solve ho gaya, mere liye yehi best result hai! 💯",
-    "🏆 Team effort & true friendship! Anytime support guaranteed hai aapke liye. Chill raho bhai! 🤝",
-    "💡 Mention na karo bhai! Helpful rehna hamari priority hai. Kuch bhi naya ho toh batana zaroor! 📝",
-    "☕ Pleasant experience assisting you! Welcome anytime for any kind of queries or assistance. ✨",
-    "🌟 Heartwarming thanks ke liye shukriya! Aapka response bohot kind aur polite tha. Stay blessed! 💖",
 ]
 
 DM_BYE_TRIGGERS = [
-    "bye",
-    "gtg",
-    "good night",
-    "goodnight",
-    "chalta hoon",
-    "milte hai",
-    "milte hain",
-    "tata",
+    "bye", "gtg", "good night", "goodnight", "chalta hoon", "milte hai", "milte hain", "tata",
 ]
 DM_BYE_REPLIES = [
-    # ── Upgraded Originals ──
     "👋 Good bye aur apna poora dhyan rakhna! Phir milte hain ek naye conversation ke sath. Take care! ✨",
     "😴 Peaceful Good Night! Raat ko acchi aur sukoon bhari neend aaye aapko, kal subah naye energy se milte hain! 🌙",
     "🙌 Catch you later! Baad me fursat se milte aur baat karte hain, tab tak apna work continue rakho! 🚀",
-    "✌️ See you very soon! Chat me connect hokar bohot accha laga, take care of yourself! 🌸",
-    # ── 10+ New Detailed Entries ──
-    "🌙 Wishing you a peaceful and cozy sleep! Rest well so you wake up with high energy tomorrow! 😴✨",
-    "👋 Bye bye! Have a wonderful day/evening ahead. Next session me jald hi catch up karenge! 🤝",
-    "🚀 Chalo fine, talk to you later! Go crush your tasks and stay amazing as always! Take care! ⚡",
-    "🧘 Take rest and disconnect for a while! Life me breaks bhi zaroori hain. Catch up soon my friend! 🕊️",
-    "☕ Great conversing with you! Have a smooth time ahead, when you come back, drop a text anytime! 🛋️",
-    "📌 Signing off for now! Take care of your health and goals. We'll speak soon again! 🎯",
-    "🏁 Wrap up time! Great catching up with you in the DMs today. Until next time, stay blessed! 🌟",
-    "💫 Sweet dreams and deep sleep! Raat shaant aur comfortable rahe aapki. Goodnight! 🌃",
-    "⚡ Catch you on the flip side! Stay focused, stay happy, and keep shining! Bye for now! 🏆",
-    "📲 Bye! Don't hesitate to ping again whenever you need anything. Have a great time! ✨",
 ]
 
 DM_QUESTION_TRIGGERS = ["?", "kya", "kaise", "kyu", "kyun", "kab", "kahan", "kaun"]
 DM_QUESTION_REPLIES = [
-    # ── Upgraded Originals ──
     "🤔 Bohot hi genuine aur thought-provoking sawal hai! Main is par deep detail ke sath jald reply bhejta hoon. 📝",
     "📝 Question receive ho gaya hai! Main is topic par accurate details check karke clear answer text karta hoon. 📌",
     "🧐 Deeply analysis worthy question! Thoda time do, bilkul precise aur correct information batata hoon. 📊",
-    # ── 10+ New Detailed Entries ──
-    "🎯 Excellent query! Is context par proper insights collect karke main step-by-step explain karta hoon. 💡",
-    "🔍 Thoughtful question asked! Let me review the exact details so I give you the most accurate solution. ⏱️",
-    "📋 Query register kar li gayi hai. Detailed explanation ke sath jald hi aapke DM me message aayega! ⚡",
-    "🧠 Ye kafi interesting point uthaya aapne! Thoda pause lijiye, main concise aur informative breakdown deta hoon. 🌐",
-    "💡 Solid technical / logical question! Iska proper context samajh ke accurate facts share karta hoon. 📊",
-    "💬 Aapka question clear hai. Main abhi details double check kar raha hoon taaki koi error na rahe. Standby! ⏳",
-    "📑 Valid point raised! Main step-by-step clarity ke sath iska breakdown bhej raha hoon, just a moment! 📌",
-    "⚙️ Processing your inquiry... Is specific issue/question ka best resolution tayar karke bhejta hoon! 🚀",
-    "🔬 Deep analysis running on your question! Give me a few minutes to formulate the best response. 🔎",
-    "🎓 Great learning/analytical question! Detailed documentation / response ke sath reply karunga! 📖",
 ]
 
 DM_LOVE_TRIGGERS = ["love you", "miss you", "pyaar", "ilu"]
 DM_LOVE_REPLIES = [
-    # ── Upgraded Originals ──
     "🥰 Aww, that's incredibly sweet and heart-warming! Aapki kindness aur love read karke bohot accha laga! ❤️",
     "❤️ Pure respect aur genuine affection ke sath thanks! Aapka ye wholesome support mere liye bohot mean karta hai! ✨",
     "🤗 Right back at you my friend! True bonding aur mutual respect hamesha maintain rahegi hamari! 💯",
-    # ── 10+ New Detailed Entries ──
-    "💖 Truly touched by your kind words! Such genuine warmth and positive vibes mean a lot to me! 🌸",
-    "🌟 Thank you so much for spreading such positive and loving energy! Wishing you double the love and light! ✨",
-    "🤗 Lots of love and respect back to you! Friends like you make the conversation super delightful! 🥂",
-    "👑 Truly golden heart content! Aapka affection aur positive words motivate karte hain. Stay blessed always! 🏆",
-    "🥰 Wholesome level maximum! Message read karke instantly face par smile aa gayi. Thanks a ton! 💖",
-    "🎁 Heartfelt gratitude for your immense love! Aise wholesome DMs din bana dete hain sach me! ☕",
-    "🕊️ Spread positivity and love everywhere! Aapka bond aur affection always prioritized aur respected rahega! ✨",
-    "💐 Thank you for being such a wonderful soul! Sending tons of warm regards and positive vibes back! 🌺",
-    "❤️ Unmatched positivity! Pure affection aur respect ke sath greeting accept ki jaati hai. Take care! 💫",
-    "🌟 Love and respect absolute 100%! Always here to support you in every step of the journey! 🤝",
 ]
 
 DM_ANGRY_TRIGGERS = ["gussa", "angry", "naraz", "irritat", "pareshan"]
 DM_ANGRY_REPLIES = [
-    # ── Upgraded Originals ──
     "😟 Sab theek hai na? Please tension mat lo, aaram se batayiye kya issue hua hai jisse pareshani hui? 🫂",
     "🫂 Calm aura aur deep breath lo my friend. Gussa hone se situation clear nahi hoti, milkar solve karte hain! ✨",
     "💬 Main poori tarah se tayar hoon sunne ke liye. Clear tarike se batao kya baat hui hai, issue resolve karenge! 📌",
-    # ── 10+ New Detailed Entries ──
-    "🕊️ Deep breath in, deep breath out. Frustration natural hai par aaram se baat karke problem solve kar lete hain! 🧘",
-    "⚠️ I understand aap upset ya annoyed ho. Thoda calm ho jao aur batayo main is situation ko kaise sahi karoon? 🤝",
-    "☕ Paani piyo aur aaram se baitho. Gusse me discussion nahi hota, batao kya solution chahiye aapko? 🛋️",
-    "📌 Main yahan sunne aur help karne ke liye hoon. Apni pareshani detail me batao, we will figure it out together! 💡",
-    "🛡️ Tension lene ki bilkul zaroorat nahi hai. Agar mujhse koi mistake hui hai toh kindly point out karo, correct karenge! 📝",
-    "🔍 Please peace of mind maintain rakho. Upset hone ke piche ka exact root cause kya hai, let me know! 🧠",
-    "😌 Anger burns energy! Isko positive output me convert karte hain. Openly batao kya bother kar raha hai aapko? 🌊",
-    "🤝 Zero judgment zone hai ye inbox! Jo bhi issue hai calmly express karo, solutions par focus karenge! 🎯",
-    "💬 Aapka point totally respected hai. Warm conversation ke sath matter ko easily sort out kar sakte hain! ✨",
-    "🩹 Calm environment create karte hain. Problem kitni bhi badi ho, structured dialogue se solve ho sakti hai! 🕊️",
 ]
 
 
@@ -471,22 +423,16 @@ DM_INTENT_BANKS = [
 
 
 def _trigger_matches(text_lower: str, words: set, trigger: str) -> bool:
-    """Whole-word match for single-word triggers (so 'hi' doesn't match inside
-    'nahi'/'abhi'/'sahi'); substring match only for multi-word phrases and
-    punctuation-only triggers like '?'."""
     if trigger == "?":
         return "?" in text_lower
     if " " in trigger:
-        return trigger in text_lower
+        return trigger in textlower
     return trigger in words
 
 
 def pick_dm_reply(uid: int, text: str) -> str:
-    """Context-aware DM reply: checks message content against intent keyword
-    banks first (greeting, thanks, bye, question, etc.), falls back to the
-    generic DM_REPLIES pool if nothing matches. Avoids immediate repeats."""
     lowered = (text or "").lower()
-    words = set(re.findall(r"[a-z]+", lowered))  # whole-word tokens only
+    words = set(re.findall(r"[a-z]+", lowered))
 
     bank = DM_REPLIES
     for triggers, replies in DM_INTENT_BANKS:
@@ -505,38 +451,19 @@ def pick_dm_reply(uid: int, text: str) -> str:
 REACTION_EMOJIS = ["👍", "🔥", "😂", "❤️", "🎉", "👏", "😎", "💯"]
 
 # ────────────────────────────────────────────────
-#   STORAGE (per-group, JSON)
-#   structure:
-#   {
-#     "<chat_id>": {
-#        "enabled": bool,
-#        "cooldown": int,
-#        "quiet_start": "HH:MM" | null,
-#        "quiet_end": "HH:MM" | null,
-#        "triggers": {"word": "reply text"},
-#        "react_enabled": bool,
-#        "members": {
-#            "<user_id>": {
-#                "mood": "hype"|"chill"|"roast"|"neutral",
-#                "joined_at": iso_ts,
-#                "reply_count": int
-#            }
-#        },
-#        "audit": [
-#            {"user_id": "...", "joined_at": iso_ts, "left_at": iso_ts,
-#             "reply_count": int}
-#        ]
-#     }
-#   }
+#   STORAGE & STATE
 # ────────────────────────────────────────────────
 data: Dict[str, dict] = {}
 last_reply_time: Dict[int, float] = {}
 last_dm_reply_time: Dict[int, float] = {}
 last_reply_text: Dict[int, str] = {}   # avoid immediate repeats per user (groups)
 last_dm_reply_text: Dict[int, str] = {}  # avoid immediate repeats per user (DMs)
-last_react_time: Dict[tuple, float] = {}  # (chat_id, user_id) -> ts, flood-protection for all-message reactions
-REACTION_ALL_COOLDOWN_SECONDS = 3      # light per-user cooldown so reactions don't flood-wait on rapid messages
+last_react_time: Dict[tuple, float] = {}  # (chat_id, user_id) -> ts, flood-protection
+REACTION_ALL_COOLDOWN_SECONDS = 3
 bot_alive = True                        # global kill-switch state
+
+# 🔥 NEW: Store active roast spam loops 🔥
+active_roasts: Dict[int, asyncio.Task] = {}
 
 
 def load_data():
@@ -573,7 +500,6 @@ def get_chat(chat_id: int) -> dict:
             "audit": [],
             "react_enabled": True,
         }
-    # backfill for old-format files
     chat = data[key]
     chat.setdefault("cooldown", DEFAULT_RATE_LIMIT_SECONDS)
     chat.setdefault("quiet_start", None)
@@ -588,9 +514,6 @@ def get_chat(chat_id: int) -> dict:
 load_data()
 
 def _load_string_session() -> str:
-    """Reads the saved session string from SESSION_FILE if it exists, else
-    returns an empty string (Telethon will prompt for phone/OTP login and
-    we'll save the resulting session string after connecting)."""
     if os.path.isfile(SESSION_FILE):
         try:
             with open(SESSION_FILE, "r", encoding="utf-8") as f:
@@ -604,13 +527,10 @@ def _save_string_session(session_str: str):
     try:
         with open(SESSION_FILE, "w", encoding="utf-8") as f:
             f.write(session_str)
-        os.chmod(SESSION_FILE, 0o600)  # keep the session string private
+        os.chmod(SESSION_FILE, 0o600)
     except Exception as e:
         log.error(f"Could not save {SESSION_FILE}: {e}")
 
-    # Mirror the session string to MongoDB too, so factory_bot.py can
-    # rebuild this file on a fresh container (feature 9). Non-fatal if it
-    # fails — the local file above is still the source of truth for THIS run.
     if MONGODB_URI:
         try:
             from pymongo import MongoClient
@@ -629,9 +549,6 @@ def _save_string_session(session_str: str):
 bot = TelegramClient(StringSession(_load_string_session()), API_ID, API_HASH, auto_reconnect=True)
 
 
-# ────────────────────────────────────────────────
-#   HELPERS
-# ────────────────────────────────────────────────
 async def is_group_admin(event) -> bool:
     if event.sender_id == OWNER_ID:
         return True
@@ -642,14 +559,6 @@ async def is_group_admin(event) -> bool:
         return False
 
 
-# ────────────────────────────────────────────────
-#   ANTI-BAN / HUMAN MODE (global, whole-account level — set from the
-#   factory bot's "My Clone Settings" menu, hot-reloaded by
-#   settings_watcher() below). Different from the per-group
-#   `.funquiet` hours above: this pauses EVERYTHING for the whole
-#   account, and adds a small randomized delay to every send so
-#   activity doesn't look like an instant, robotic 24/7 bot.
-# ────────────────────────────────────────────────
 HUMAN_MODE = False
 SLEEP_START = "00:00"
 SLEEP_END = "06:00"
@@ -658,8 +567,6 @@ HUMAN_MAX_DELAY = 3.5
 
 
 def is_sleeping() -> bool:
-    """True if Human Mode is on AND current local time is inside the
-    configured sleep window (handles windows that wrap past midnight)."""
     if not HUMAN_MODE:
         return False
     try:
@@ -674,15 +581,11 @@ def is_sleeping() -> bool:
 
 
 async def human_delay():
-    """Small randomized pause before sending a reply/reaction — makes
-    activity look human-paced instead of instant, reducing automation-
-    detection / ban risk. Only applied when Human Mode is on."""
     if HUMAN_MODE:
         await asyncio.sleep(random.uniform(HUMAN_MIN_DELAY, HUMAN_MAX_DELAY))
 
 
 def in_quiet_hours(chat: dict) -> bool:
-    """Returns True if current local time falls inside the group's quiet window."""
     start_s, end_s = chat.get("quiet_start"), chat.get("quiet_end")
     if not start_s or not end_s:
         return False
@@ -692,7 +595,6 @@ def in_quiet_hours(chat: dict) -> bool:
         end = dtime.fromisoformat(end_s)
         if start <= end:
             return start <= now <= end
-        # window wraps past midnight, e.g. 23:00 -> 06:00
         return now >= start or now <= end
     except Exception:
         return False
@@ -701,7 +603,6 @@ def in_quiet_hours(chat: dict) -> bool:
 def pick_reply(uid: int, mood: str) -> str:
     bank = MOOD_BANKS.get(mood, ALL_REPLIES)
     reply = random.choice(bank)
-    # avoid immediate repeat if possible
     tries = 0
     while reply == last_reply_text.get(uid) and tries < 5 and len(bank) > 1:
         reply = random.choice(bank)
@@ -722,10 +623,6 @@ def parse_hhmm(s: str) -> Optional[str]:
 
 
 async def send_real_reaction(chat_id: int, msg_id: int, emoji: Optional[str] = None):
-    """Sends an actual Telegram reaction (the small emoji popup on the message
-    corner) using SendReactionRequest — NOT a text message. Separate from the
-    normal text reply. Fails silently (logged) since a reaction failing should
-    never block the text reply from having already been sent."""
     chosen = emoji or random.choice(REACTION_EMOJIS)
     try:
         await human_delay()
@@ -738,7 +635,7 @@ async def send_real_reaction(chat_id: int, msg_id: int, emoji: Optional[str] = N
         log.warning(f"Flood wait on reaction: {fw.seconds}s")
         await asyncio.sleep(fw.seconds)
     except RPCError as e:
-        log.warning(f"Reaction RPC error (emoji may be unsupported in this chat): {e}")
+        log.warning(f"Reaction RPC error: {e}")
     except Exception as e:
         log.warning(f"Reaction failed: {e}")
 
@@ -750,41 +647,28 @@ async def send_real_reaction(chat_id: int, msg_id: int, emoji: Optional[str] = N
 async def join_fun(event):
     if not event.is_group:
         return await event.reply("⚠️ Ye command sirf group me chalta hai.")
-
     chat = get_chat(event.chat_id)
     uid = str(event.sender_id)
-
     if uid in chat["members"]:
         return await event.reply("✅ Aap already opted-in ho.")
-
     chat["members"][uid] = {
         "mood": "chill",
         "joined_at": datetime.now().isoformat(timespec="seconds"),
         "reply_count": 0,
     }
     save_data()
-    log.info(f"User {uid} joined fun in chat {event.chat_id}")
-    await event.reply(
-        "🎉 Aap fun-mode me opt-in ho gaye! Bahar aane ke liye `.leavefun` bhejo.\n"
-        "Mood set karne ke liye: `.funtype hype|chill|roast`"
-    )
+    await event.reply("🎉 Aap fun-mode me opt-in ho gaye! Bahar aane ke liye `.leavefun` bhejo.\nMood set karne ke liye: `.funtype hype|chill|roast`")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.leavefun$"))
 async def leave_fun(event):
     if not event.is_group:
         return
-
     chat = get_chat(event.chat_id)
     uid = str(event.sender_id)
-
     member = chat["members"].get(uid)
     if not member:
         return await event.reply("ℹ️ Aap opted-in nahi the.")
-
-    # Save the member's history to the audit log BEFORE removing them,
-    # so opt-in/opt-out history isn't lost (fixes v2 bug where the
-    # record was deleted right after left_at was set).
     chat["audit"].append({
         "user_id": uid,
         "joined_at": member.get("joined_at"),
@@ -793,7 +677,6 @@ async def leave_fun(event):
     })
     del chat["members"][uid]
     save_data()
-    log.info(f"User {uid} left fun in chat {event.chat_id}")
     await event.reply("👋 Aap fun-mode se bahar ho gaye.")
 
 
@@ -816,44 +699,31 @@ async def set_mood(event):
 # ────────────────────────────────────────────────
 @bot.on(events.NewMessage(pattern=r"^\.funmode (on|off)$"))
 async def fun_mode_toggle(event):
-    if not event.is_group:
-        return await event.reply("⚠️ Ye command sirf group me chalta hai.")
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
-
+    if not event.is_group: return
+    if not await is_group_admin(event): return
     state = event.pattern_match.group(1) == "on"
     chat = get_chat(event.chat_id)
     chat["enabled"] = state
     save_data()
-    log.info(f"Fun mode {'enabled' if state else 'disabled'} in chat {event.chat_id}")
     await event.reply(f"⚙️ Fun-mode is group ke liye **{'ON' if state else 'OFF'}** kar diya gaya.")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.funreact (on|off)$"))
 async def fun_react_toggle(event):
-    """Toggles whether the bot adds a real Telegram reaction alongside its
-    text reply, for this group specifically. DMs always react regardless."""
-    if not event.is_group:
-        return await event.reply("⚠️ Ye command sirf group me chalta hai.")
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
-
+    if not event.is_group: return
+    if not await is_group_admin(event): return
     state = event.pattern_match.group(1) == "on"
     chat = get_chat(event.chat_id)
     chat["react_enabled"] = state
     save_data()
-    log.info(f"Reactions {'enabled' if state else 'disabled'} in chat {event.chat_id}")
     await event.reply(f"😀 Reactions is group ke liye **{'ON' if state else 'OFF'}** kar di gayi.")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.funcooldown (\d+)$"))
 async def set_cooldown(event):
-    if not event.is_group:
-        return
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
-    seconds = int(event.pattern_match.group(1))
-    seconds = max(5, min(seconds, 3600))
+    if not event.is_group: return
+    if not await is_group_admin(event): return
+    seconds = max(5, min(int(event.pattern_match.group(1)), 3600))
     chat = get_chat(event.chat_id)
     chat["cooldown"] = seconds
     save_data()
@@ -862,275 +732,225 @@ async def set_cooldown(event):
 
 @bot.on(events.NewMessage(pattern=r"^\.funquiet (\d{1,2}:\d{2}) (\d{1,2}:\d{2})$"))
 async def set_quiet_hours(event):
-    if not event.is_group:
-        return
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
+    if not event.is_group: return
+    if not await is_group_admin(event): return
     start = parse_hhmm(event.pattern_match.group(1))
     end = parse_hhmm(event.pattern_match.group(2))
-    if not start or not end:
-        return await event.reply("⚠️ Format: `.funquiet 23:00 07:00`")
+    if not start or not end: return await event.reply("⚠️ Format: `.funquiet 23:00 07:00`")
     chat = get_chat(event.chat_id)
     chat["quiet_start"] = start
     chat["quiet_end"] = end
     save_data()
-    await event.reply(f"🌙 Quiet hours set: **{start} → {end}** (is window me auto-reply nahi aayega).")
+    await event.reply(f"🌙 Quiet hours set: **{start} → {end}**")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.funquiet off$"))
 async def clear_quiet_hours(event):
-    if not event.is_group:
-        return
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
+    if not event.is_group: return
+    if not await is_group_admin(event): return
     chat = get_chat(event.chat_id)
-    chat["quiet_start"] = None
-    chat["quiet_end"] = None
+    chat["quiet_start"], chat["quiet_end"] = None, None
     save_data()
     await event.reply("☀️ Quiet hours hata diye gaye.")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.trigger add (\S+) (.+)$"))
 async def trigger_add(event):
-    if not event.is_group:
-        return
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
+    if not event.is_group: return
+    if not await is_group_admin(event): return
     word = event.pattern_match.group(1).lower()
-    reply_text = event.pattern_match.group(2)
     chat = get_chat(event.chat_id)
-    chat["triggers"][word] = reply_text
+    chat["triggers"][word] = event.pattern_match.group(2)
     save_data()
-    await event.reply(f"➕ Trigger add ho gaya: `{word}` → {reply_text}")
+    await event.reply(f"➕ Trigger add ho gaya: `{word}`")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.trigger remove (\S+)$"))
 async def trigger_remove(event):
-    if not event.is_group:
-        return
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
+    if not event.is_group: return
+    if not await is_group_admin(event): return
     word = event.pattern_match.group(1).lower()
     chat = get_chat(event.chat_id)
     if word in chat["triggers"]:
         del chat["triggers"][word]
         save_data()
         await event.reply(f"➖ Trigger hata diya: `{word}`")
-    else:
-        await event.reply("ℹ️ Ye trigger exist nahi karta.")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.trigger list$"))
 async def trigger_list(event):
-    if not event.is_group:
-        return
+    if not event.is_group: return
     chat = get_chat(event.chat_id)
-    if not chat["triggers"]:
-        return await event.reply("ℹ️ Koi trigger set nahi hai.")
+    if not chat["triggers"]: return await event.reply("ℹ️ Koi trigger set nahi hai.")
     lines = [f"• `{w}` → {r}" for w, r in chat["triggers"].items()]
     await event.reply("🧵 **Active Triggers:**\n" + "\n".join(lines))
 
 
 @bot.on(events.NewMessage(pattern=r"^\.funbroadcast (.+)$"))
 async def fun_broadcast(event):
-    """Admin-only: send a message to every opted-in member's DM (still consent-based, since
-    only users who already opted into this specific group's fun-mode are targeted)."""
-    if not event.is_group:
-        return
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
-
+    if not event.is_group: return
+    if not await is_group_admin(event): return
     msg = event.pattern_match.group(1)
     chat = get_chat(event.chat_id)
-    if not chat["members"]:
-        return await event.reply("ℹ️ Koi opted-in member nahi hai.")
-
+    if not chat["members"]: return await event.reply("ℹ️ Koi opted-in member nahi hai.")
     sent, failed = 0, 0
     for uid_str in list(chat["members"].keys()):
         try:
             await bot.send_message(int(uid_str), f"📢 **Fun Bot Announcement:**\n{msg}")
             sent += 1
-            await asyncio.sleep(1)  # gentle pacing to avoid flood limits
-        except Exception as e:
-            failed += 1
-            log.warning(f"Broadcast failed for {uid_str}: {e}")
-
+            await asyncio.sleep(1)
+        except Exception: failed += 1
     await event.reply(f"📨 Broadcast bhej diya. ✅ Sent: {sent} | ❌ Failed: {failed}")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.funkill$"))
 async def fun_kill(event):
     global bot_alive
-    if event.sender_id != OWNER_ID:
-        return
+    if event.sender_id != OWNER_ID: return
     bot_alive = False
-    log.warning("Bot globally disabled by owner")
     await event.reply("🛑 Bot globally paused (owner only). `.funrevive` se wapas on karo.")
 
 
 @bot.on(events.NewMessage(pattern=r"^\.funrevive$"))
 async def fun_revive(event):
     global bot_alive
-    if event.sender_id != OWNER_ID:
-        return
+    if event.sender_id != OWNER_ID: return
     bot_alive = True
-    log.info("Bot globally re-enabled by owner")
     await event.reply("✅ Bot wapas active ho gaya.")
 
-
-@bot.on(events.NewMessage(pattern=r"^\.funexport$"))
-async def fun_export(event):
-    if not event.is_group:
-        return
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
-    chat = get_chat(event.chat_id)
-    export_name = f"funbot_export_{event.chat_id}.json"
-    with open(export_name, "w", encoding="utf-8") as f:
-        json.dump(chat, f, indent=2, ensure_ascii=False)
-    await event.reply(file=export_name, message="📦 Is group ka fun-data export.")
+# ────────────────────────────────────────────────
+# 🔥 NEW FEATURE: ROAST LOOP (Auto Spam)
+# ────────────────────────────────────────────────
+async def roast_loop(chat_id: int):
+    """Background task to send a roast message every 3 seconds."""
     try:
-        os.remove(export_name)
-    except Exception:
-        pass
+        while bot_alive:
+            # Pura SPAM_ROAST_REPLIES me se random message chusega 
+            msg = random.choice(SPAM_ROAST_REPLIES)
+            await bot.send_message(chat_id, msg)
+            await asyncio.sleep(3) # Har 3 second me bhejega
+    except asyncio.CancelledError:
+        pass # Loop ko gracefully band karne ke liye
 
+@bot.on(events.NewMessage(pattern=r"^\.roast (on|off)$"))
+async def toggle_roast_spam(event):
+    """Command to start/stop the continuous roast loop in any chat."""
+    # Sirf Bot Owner ye command use kar sakta hai
+    if event.sender_id != OWNER_ID:
+        return
+
+    action = event.pattern_match.group(1).lower()
+    chat_id = event.chat_id
+
+    if action == "on":
+        if chat_id in active_roasts:
+            return await event.edit("🔥 Roast mode is chat me pehle se ON hai bhai!")
+        
+        await event.edit("🔥 **Roast Mode ON!** Ab dekh iska kya haal karta hoon... 🔥")
+        
+        # Background task create karo
+        task = asyncio.create_task(roast_loop(chat_id))
+        active_roasts[chat_id] = task
+
+    elif action == "off":
+        if chat_id in active_roasts:
+            # Task ko cancel karo
+            active_roasts[chat_id].cancel()
+            del active_roasts[chat_id]
+            await event.edit("🛑 **Roast Mode OFF!** Chalo maaf kiya isko.")
+        else:
+            await event.edit("ℹ️ Yahan koi roast chalu hi nahi tha bhai.")
 
 # ────────────────────────────────────────────────
 #   COMMANDS — info
 # ────────────────────────────────────────────────
 @bot.on(events.NewMessage(pattern=r"^\.funlist$"))
 async def fun_list(event):
-    if not event.is_group:
-        return
+    if not event.is_group: return
     chat = get_chat(event.chat_id)
-    if not chat["members"]:
-        return await event.reply("ℹ️ Is group me abhi koi opt-in nahi hai.")
-
+    if not chat["members"]: return await event.reply("ℹ️ Is group me abhi koi opt-in nahi hai.")
     lines = []
     for uid_str, info in chat["members"].items():
-        try:
-            user = await bot.get_entity(int(uid_str))
-            name = user.first_name or uid_str
-        except Exception:
-            name = uid_str
-        lines.append(f"• {name} (`{uid_str}`) — mood: {info.get('mood', 'chill')}")
-
+        lines.append(f"• (`{uid_str}`) — mood: {info.get('mood', 'chill')}")
     await event.reply("👥 **Opted-in members:**\n" + "\n".join(lines))
 
 
 @bot.on(events.NewMessage(pattern=r"^\.funstats$"))
 async def fun_stats(event):
-    if not event.is_group:
-        return
+    if not event.is_group: return
     chat = get_chat(event.chat_id)
-    if not chat["members"]:
-        return await event.reply("ℹ️ Abhi koi data nahi hai.")
-
+    if not chat["members"]: return await event.reply("ℹ️ Abhi koi data nahi hai.")
     ranked = sorted(chat["members"].items(), key=lambda kv: kv[1].get("reply_count", 0), reverse=True)
-    lines = []
-    medals = ["🥇", "🥈", "🥉"]
-    for i, (uid_str, info) in enumerate(ranked[:10]):
-        try:
-            user = await bot.get_entity(int(uid_str))
-            name = user.first_name or uid_str
-        except Exception:
-            name = uid_str
-        prefix = medals[i] if i < 3 else f"{i + 1}."
-        lines.append(f"{prefix} {name} — {info.get('reply_count', 0)} replies")
-
+    lines = [f"• `{uid_str}` — {info.get('reply_count', 0)} replies" for uid_str, info in ranked[:10]]
     await event.reply("🏆 **Fun Leaderboard:**\n" + "\n".join(lines))
 
 
 @bot.on(events.NewMessage(pattern=r"^\.funaudit$"))
 async def fun_audit(event):
-    """Shows the last 10 opt-in/opt-out records for this group (admins only)."""
-    if not event.is_group:
-        return
-    if not await is_group_admin(event):
-        return await event.reply("❌ Sirf group admins ye command chala sakte hain.")
+    if not event.is_group: return
+    if not await is_group_admin(event): return
     chat = get_chat(event.chat_id)
-    if not chat["audit"]:
-        return await event.reply("ℹ️ Abhi koi audit record nahi hai.")
-    lines = []
-    for rec in chat["audit"][-10:]:
-        lines.append(
-            f"• `{rec['user_id']}` — joined {rec.get('joined_at', '?')}, "
-            f"left {rec.get('left_at', '?')}, replies {rec.get('reply_count', 0)}"
-        )
+    if not chat["audit"]: return await event.reply("ℹ️ Abhi koi audit record nahi hai.")
+    lines = [f"• `{r['user_id']}` — {r.get('joined_at')} to {r.get('left_at')}" for r in chat["audit"][-10:]]
     await event.reply("📜 **Recent opt-out audit:**\n" + "\n".join(lines))
 
 
 @bot.on(events.NewMessage(pattern=r"^\.(?:funhelp|help)$"))
 async def fun_help(event):
     text = (
-        "🤖 **Fun Bot v2.4 — Command Reference**\n"
-        "`.help` / `.funhelp` — ye list, koi bhi chala sakta hai\n"
+        "🤖 **Fun Bot v2.4 — Complete Command Reference**\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "\n"
-        "**👤 Membership**\n"
+        "**🔥 Special Tools (DM/Group)**\n"
+        "😈 `.roast on/off` — Target ko continuously har 3s me roast karo (Spam mode)\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "**👤 Membership (Groups)**\n"
         "🎉 `.joinfun` — fun-mode me opt-in karo\n"
         "👋 `.leavefun` — opt-out karo\n"
         "🎛️ `.funtype hype|chill|roast` — apna reply-mood chuno\n"
-        "\n"
-        "**📊 Info**\n"
-        "👥 `.funlist` — opted-in members dekho\n"
-        "🏆 `.funstats` — leaderboard dekho\n"
-        "🧵 `.trigger list` — active keyword-triggers dekho\n"
-        "\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━\n"
         "**⚙️ Group Settings** _(admins only)_\n"
         "🔛 `.funmode on/off` — fun-mode enable/disable\n"
         "😀 `.funreact on/off` — group reactions on/off\n"
-        "⏱️ `.funcooldown <sec>` — reply cooldown set karo\n"
-        "🌙 `.funquiet HH:MM HH:MM` — quiet hours set karo\n"
-        "☀️ `.funquiet off` — quiet hours hatao\n"
-        "\n"
-        "**🧵 Triggers** _(admins only)_\n"
-        "➕ `.trigger add <word> <reply>` — naya trigger banao\n"
+        "⏱️ `.funcooldown <seconds>` — set gap b/w replies (e.g. 5)\n"
+        "🌙 `.funquiet <start> <end>` — sleep hours (e.g. 23:00 07:00)\n"
+        "☀️ `.funquiet off` — quiet hours disable karo\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "**🧵 Triggers (Custom Auto-Reply)**\n"
+        "➕ `.trigger add <word> <reply>` — naya trigger lagao\n"
         "➖ `.trigger remove <word>` — trigger hatao\n"
-        "\n"
-        "**🛠️ Admin Tools** _(admins only)_\n"
-        "📢 `.funbroadcast <msg>` — opted-in members ko DM bhejo\n"
-        "📦 `.funexport` — group ka data JSON export karo\n"
-        "📜 `.funaudit` — opt-in/opt-out history dekho\n"
-        "\n"
+        "📋 `.trigger list` — saare active triggers dekho\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "**📊 Info & Logs**\n"
+        "👥 `.funlist` — opted-in members ki list\n"
+        "🏆 `.funstats` — sabse jyada reply paane wale log\n"
+        "📜 `.funaudit` — recent opt-outs ki list\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━\n"
         "**👑 Owner Controls**\n"
+        "📢 `.funbroadcast <msg>` — saare members ko message bhejo\n"
         "🛑 `.funkill` — bot ko globally pause karo\n"
         "✅ `.funrevive` — bot ko wapas active karo\n"
-        "\n"
-        "━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "💬 **Text reply** — sirf opted-in members (group), sabko (DM)\n"
-        "😀 **Reaction** — group ke har message pe (opt-in zaroori nahi), "
-        "`.funreact off` se band\n"
-        "✂️ Auto-replies short hain (2-4 words); DM me context ke hisaab se "
-        "reply aata hai"
     )
     await event.reply(text)
 
 
 # ────────────────────────────────────────────────
 #   AUTO FUN-REPLY (opt-in + rate-limited + mood + quiet hours)
-#   Now always sends TEXT reply + REAL reaction together (subject to
-#   the group's react_enabled toggle).
 # ────────────────────────────────────────────────
 @bot.on(events.NewMessage)
 async def auto_fun(event):
-    if not bot_alive:
+    if not bot_alive or event.out or not event.is_group or is_sleeping():
         return
-    if event.out:
+
+    # 🔥 NEW: Agar is chat me ROAST LOOP chal raha hai, to normal reply mat karo
+    if event.chat_id in active_roasts:
         return
-    if not event.is_group:
-        return
-    if is_sleeping():
-        return  # Human Mode — whole account paused right now
 
     text = event.raw_text or ""
     if text.startswith("."):
-        return  # don't reply to commands
+        return
 
     chat = get_chat(event.chat_id)
-    if not chat["enabled"]:
-        return
-    if in_quiet_hours(chat):
+    if not chat["enabled"] or in_quiet_hours(chat):
         return
 
     uid = event.sender_id
@@ -1139,7 +959,6 @@ async def auto_fun(event):
     if not member:
         return
 
-    # keyword triggers take priority over generic mood replies
     lowered = text.lower()
     trigger_hit = None
     for word, reply_text in chat["triggers"].items():
@@ -1147,9 +966,8 @@ async def auto_fun(event):
             trigger_hit = reply_text
             break
 
-    cooldown = chat.get("cooldown", DEFAULT_RATE_LIMIT_SECONDS)
     now = time.time()
-    if now - last_reply_time.get(uid, 0) < cooldown:
+    if now - last_reply_time.get(uid, 0) < chat.get("cooldown", DEFAULT_RATE_LIMIT_SECONDS):
         return
     last_reply_time[uid] = now
 
@@ -1157,49 +975,27 @@ async def auto_fun(event):
         await human_delay()
         reply_text_out = trigger_hit if trigger_hit else pick_reply(uid, member.get("mood", "chill"))
         await event.reply(reply_text_out)
-        # NOTE: reaction is handled separately by auto_react_group below,
-        # which now reacts to every message in the group (not just
-        # opted-in members' messages), so we don't react here too.
-
         member["reply_count"] = member.get("reply_count", 0) + 1
         save_data()
     except FloodWaitError as fw:
-        log.warning(f"Flood wait {fw.seconds}s")
         await asyncio.sleep(fw.seconds)
-    except RPCError as e:
-        log.error(f"RPC error in auto_fun: {e}")
-    except Exception as e:
-        log.error(f"Unexpected error in auto_fun: {e}")
+    except Exception:
+        pass
 
 
 # ────────────────────────────────────────────────
 #   AUTO REACTION — ALL GROUP MESSAGES (no opt-in required)
-#   Fires for every non-command message in a fun-mode-enabled group,
-#   regardless of whether the sender opted in with .joinfun. Text
-#   auto-replies above stay opt-in gated; this reacts to everyone.
-#   Toggle per group with `.funreact on/off`.
 # ────────────────────────────────────────────────
 @bot.on(events.NewMessage)
 async def auto_react_group(event):
-    if not bot_alive:
+    if not bot_alive or event.out or not event.is_group or is_sleeping():
         return
-    if event.out:
-        return
-    if not event.is_group:
-        return
-    if is_sleeping():
-        return  # Human Mode — whole account paused right now
-
     text = event.raw_text or ""
     if text.startswith("."):
-        return  # don't react to commands
+        return
 
     chat = get_chat(event.chat_id)
-    if not chat["enabled"]:
-        return
-    if not chat.get("react_enabled", True):
-        return
-    if in_quiet_hours(chat):
+    if not chat["enabled"] or not chat.get("react_enabled", True) or in_quiet_hours(chat):
         return
 
     uid = event.sender_id
@@ -1213,20 +1009,16 @@ async def auto_react_group(event):
 
 
 # ────────────────────────────────────────────────
-#   AUTO DM-REPLY (consent implicit: only replies to messages sent to you directly)
-#   Now always sends TEXT reply + REAL reaction together. Reactions are
-#   always allowed in DMs regardless of any group setting.
+#   AUTO DM-REPLY
 # ────────────────────────────────────────────────
 @bot.on(events.NewMessage)
 async def auto_dm(event):
-    if not bot_alive:
+    if not bot_alive or event.out or not event.is_private or is_sleeping():
         return
-    if event.out:
+
+    # 🔥 NEW: Agar is DM me ROAST LOOP chal raha hai, to normal reply mat karo
+    if event.chat_id in active_roasts:
         return
-    if not event.is_private:
-        return
-    if is_sleeping():
-        return  # Human Mode — whole account paused right now
 
     text = event.raw_text or ""
     if text.startswith("."):
@@ -1241,22 +1033,15 @@ async def auto_dm(event):
     try:
         reply = pick_dm_reply(uid, text)
         await event.reply(reply)
-
-        # real Telegram reaction on the user's DM, always on
         await send_real_reaction(event.chat_id, event.id)
     except FloodWaitError as fw:
         await asyncio.sleep(fw.seconds)
-    except RPCError as e:
-        log.error(f"RPC error in auto_dm: {e}")
-    except Exception as e:
-        log.error(f"Unexpected error in auto_dm: {e}")
+    except Exception:
+        pass
 
 
 # ────────────────────────────────────────────────
 #   SETTINGS HOT-RELOAD
-#   factory_bot.py writes to SETTINGS_FILE when the owner changes
-#   something from the "My Clone Settings" menu. This clone polls it
-#   every 20s and applies the values live — no restart needed.
 # ────────────────────────────────────────────────
 async def settings_watcher():
     global DEFAULT_RATE_LIMIT_SECONDS, HUMAN_MODE, SLEEP_START, SLEEP_END
@@ -1269,7 +1054,6 @@ async def settings_watcher():
                 if "default_cooldown" in s:
                     DEFAULT_RATE_LIMIT_SECONDS = int(s["default_cooldown"])
                 if "react_enabled_global" in s and not s["react_enabled_global"]:
-                    # owner switched reactions off for ALL their groups at once
                     for chat in data.values():
                         chat["react_enabled"] = False
                     save_data()
@@ -1279,15 +1063,8 @@ async def settings_watcher():
                     SLEEP_START = s["sleep_start"]
                 if "sleep_end" in s:
                     SLEEP_END = s["sleep_end"]
-
-                now_sleeping = is_sleeping()
-                if now_sleeping and not was_sleeping:
-                    log.info(f"🛡️ Human Mode: entering sleep window ({SLEEP_START}–{SLEEP_END}) — pausing all activity.")
-                elif was_sleeping and not now_sleeping:
-                    log.info("🛡️ Human Mode: sleep window over — resuming activity.")
-                was_sleeping = now_sleeping
-        except Exception as e:
-            log.warning(f"settings_watcher error: {e}")
+        except Exception:
+            pass
         await asyncio.sleep(20)
 
 
@@ -1295,29 +1072,19 @@ async def settings_watcher():
 #   START
 # ────────────────────────────────────────────────
 async def login_only():
-    """Runs Telethon's normal interactive phone/OTP prompt directly in THIS
-    terminal — never through a bot chat — then saves the session and exits."""
     await bot.start()
     _save_string_session(bot.session.save())
     me = await bot.get_me()
     print(f"✅ Login successful — logged in as {me.first_name} (@{me.username}).")
-    print("Session saved. You can now let the factory bot start this clone,")
-    print("or run this script again without --login-only to run it directly.")
     await bot.disconnect()
 
 
 async def main():
     await bot.start()
-    # persist the session string so future runs reuse this login instead of
-    # asking for phone/OTP again — safe to call every start, it's a no-op
-    # rewrite if nothing changed
     _save_string_session(bot.session.save())
     me = await bot.get_me()
-    log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    log.info("🤖 FUN BOT v2.4 STARTED")
-    log.info(f"👤 Logged in as → {me.first_name} (@{me.username})")
-    log.info(f"🆔 User ID → {me.id}")
-    log.info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    log.info("🤖 FUN BOT v2.4 STARTED (With 55+ Messages Roast Loop & Full Help Menu)")
+    log.info(f"👤 Logged in as → {me.first_name}")
     asyncio.create_task(settings_watcher())
     await bot.run_until_disconnected()
 
@@ -1327,3 +1094,5 @@ if __name__ == "__main__":
         asyncio.run(login_only())
     else:
         asyncio.run(main())
+
+```
