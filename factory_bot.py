@@ -1186,6 +1186,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        log.info("Factory bot stopped by user.")
-
-```
+        log.info("Factory bot stopped by user.") 
