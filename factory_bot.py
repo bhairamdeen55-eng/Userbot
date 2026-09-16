@@ -1,28 +1,4 @@
 
-# ────────────────────────────────────────────────
-#   FUN BOT — CLONE FACTORY (management Bot API bot)
-#
-#   WHAT THIS DOES:
-#   - Runs as a normal Telegram Bot (via @BotFather token), NOT a userbot.
-#   - Lets anyone generate their own fun_bot clone by giving API_ID,
-#     API_HASH, and OWNER_ID through chat.
-#   - Deliberately does NOT ask for phone number or OTP anywhere in this
-#     bot. Login for each clone happens in the owner's own terminal by
-#     running funbot_core.py --login-only, where Telethon's own prompt
-#     asks for phone/code directly — this bot never sees or stores it.
-#   - Once a clone has logged in (its session file exists), this factory
-#     auto-starts and monitors it as a background subprocess.
-#   - Provides a settings menu so each owner can tweak their own clone's
-#     cooldown / reactions without touching a terminal again.
-#
-#   SETUP:
-#   1. Get a bot token from @BotFather → set BOT_TOKEN below.
-#   2. Get your own API_ID / API_HASH from my.telegram.org → set below
-#      (this is for the FACTORY bot's own connection, separate from any
-#      clone's credentials).
-#   3. Make sure funbot_core.py sits in the same folder as this script.
-#   4. python factory_bot.py
-# ────────────────────────────────────────────────
 
 import asyncio
 import json
